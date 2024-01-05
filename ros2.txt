@@ -1,0 +1,38 @@
+SET DOMAIN ID ROS
+export ROS_DOMAIN_ID= domain_id
+
+CREA WORKSPACE
+
+mkdir -p ~/workspace_name/src
+cd ~/workspace_name/src
+colcon build
+
+ATTIVARE WORKSPACE:
+source workspace_name/install/setup.bash
+
+CREA PACKAGE
+
+cd ~/workspace_name/src
+ros2 pkg create package_name --dependencies rclcpp std_msg
+oppure ros2 pkg create my_robot --build-type ament_python --dependencies rclpy
+cd ~/workspace_name ed esegui colcon build (per buildare il package)
+
+NOTE:
+colcon build --symlink-install per evitare di rieseguire ogni volta colcon build
+
+package.xml mantiene le dipendenze del package (che sono altri package)
+se si hanno errori downgrade setuptools a 58.2.0 (per farlo pip3 install setuptools==58.2.0)
+
+CREA NODO
+scrivi codice in un file
+dentro il dizionario la lista con chiave "console_scripts" del dizionario entry_point di setup.py aggiungi una stringa "name_node = directory_node.file_node:function_name" 
+=> esegui colcon build da cd ~/workspace_name
+=> source ~/.bashrc
+
+ESEGUI NODO
+ros2 run name_pkg name_node
+
+COMANDI UTILI:
+ros2 topic list (list all topic)
+ros2 topic info name_topic (vedi chi è sottoscritto e chi publica)
+ 

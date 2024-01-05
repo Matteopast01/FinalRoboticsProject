@@ -6,10 +6,10 @@ import numpy as np
 from PIL import Image
 import cv2
 
-MY_SIM_HOST = "localhost"  # in PyCharm
+#MY_SIM_HOST = "localhost"  # in PyCharm
 
 
-# MY_SIM_HOST = "host.docker.internal"  # from the container
+MY_SIM_HOST = "host.docker.internal"  # from the container
 
 
 class SimulatedPioneerBody:
@@ -51,16 +51,14 @@ class SimulatedPioneerBody:
         ]
         self._my_vision_sensor = self._sim.getObject("./Vision_sensor")
         print("SIM objects referenced")
-        self._my_actuators = {"leftMotor": self._sim.getObject("./" + "leftMotor"),
-                              "rightMotor": self._sim.getObject("./" + "rightMotor")}
+        self._my_actuators = {"leftMotor": self._sim.getObject("./leftMotor"),
+                              "rightMotor": self._sim.getObject("./rightMotor")}
 
-    def read_camera1(self):
-        # return self._sim.getVisionSensorImg(self._my_vision_sensor)
-        return self._sim.unpackUInt8Table(self._sim.getVisionSensorImg(self._my_vision_sensor)[0])
-
-    def read_orientation(self):
-
-        return self._sim.getObjectOrientation(self._my_pioneer, self._sim.handle_world)
+    def read_orientation(self, axis=2, convert_to_degree=True):
+        if convert_to_degree:
+            return np.degrees(self._sim.getObjectOrientation(self._my_pioneer, self._sim.handle_world)[axis])
+        else:
+            return self._sim.getObjectOrientation(self._my_pioneer, self._sim.handle_world)[axis]
 
     """" this method works but we can't retrieve the position because we are cheating
     def read_position(self):
