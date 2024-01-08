@@ -1,9 +1,10 @@
+#! # !/usr/bin/env python3
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
-
 from typing import Any, List
 import numpy as np
 from PIL import Image
 import cv2
+import io
 
 # MY_SIM_HOST = "localhost"  # in PyCharm
 
@@ -55,9 +56,11 @@ class SimulatedPioneerBody:
         # (consistent with the axes of vision sensors, pointing Z outwards, Y up)
         # and color format is RGB triplets, whereas OpenCV uses BGR:
         image = Image.fromarray(img_a)
-        image.save("prova.png")
+        with io.BytesIO() as output:
+            image.save(output, format="PNG")
+            value = output.getvalue()
         self._sim.setStepping(False)
-        return img
+        return value
         # return self._sim.unpackUInt8Table(self._sim.getVisionSensorImg(self._my_vision_sensor)[0])
 
     def read_proximity_sensor(self, sensor_name=None):
@@ -68,7 +71,8 @@ class SimulatedPioneerBody:
             if sensor_name == None:
                 values = {}
                 for sensor, handler in self._my_sensors_values.items():
-                    values[sensor] = _, dis, _, _, _ = self._sim.readProximitySensor(handler)
+                    _, dis, _, _, _ = self._sim.readProximitySensor(handler)
+                    values[sensor] = dis
                 return values
             else:
                 handler = self._my_sensors_values[sensor_name]

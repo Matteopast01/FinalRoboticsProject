@@ -4,7 +4,8 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from std_msgs.msg import Float32
 from std_msgs.msg import Byte
-from body import SimulatedPioneerBody
+import base64
+from .body import SimulatedPioneerBody
 from typing import Any
 import json
 
@@ -20,18 +21,18 @@ class MyNode(Node):
         self._robot = robot
         self.get_logger().info("Hello from sense_module")
         self._proximity_sensors_publisher = self.create_publisher(String, "proximity_sensors", 10)
-        self._orientation_sensor_publisher = self.create_publisher(String, "orientation_sensor", 10)
-        self._img_sensor_publisher = self.create_publisher(String, "orientation_sensor", 10)
+        self._orientation_sensor_publisher = self.create_publisher(Float32, "orientation_sensor", 10)
+        self._img_sensor_publisher = self.create_publisher(String, "camera_sensor", 10)
         self.timer = self.create_timer(0.1, self.pub_callback)
 
     def pub_callback(self):
         self.my_pub_proximity_sensors()
         self.my_pub_orientation_sensor()
-        self. my_pub_camera_sensor()
+        self.my_pub_camera_sensor()
 
     def my_pub_camera_sensor(self):
-        msg = Byte()
-        msg.data = self._robot.read_camera()
+        msg = String()
+        msg.data = base64.b64encode(self._robot.read_camera()).decode('utf-8')
         self._img_sensor_publisher.publish(msg)
         self.get_logger().info('Publish Camera sensor')
 
