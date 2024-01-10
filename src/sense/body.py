@@ -34,7 +34,7 @@ class SimulatedPioneerBody:
         self._my_vision_sensor = self._sim.getObject("./Vision_sensor")
         print("SIM objects referenced")
 
-    def read_orientation(self, axis=2, convert_to_degree=True):
+    def read_orientation(self, axis=2, convert_to_degree=False):
         if convert_to_degree:
             return np.degrees(self._sim.getObjectOrientation(self._my_pioneer, self._sim.handle_world)[axis])
         else:

@@ -8,6 +8,7 @@ import base64
 from .body import SimulatedPioneerBody
 from typing import Any
 import json
+from ..ReadConfig import ReadConfig
 
 
 class MyNode(Node):
@@ -15,15 +16,19 @@ class MyNode(Node):
     _proximity_sensors_publisher: Any
     _orientation_sensor_publisher: Any
     _img_sensor_publisher: Any
+    _config: ReadConfig
 
     def __init__(self, robot):
         super().__init__("sense_node")
+        self._config = ReadConfig()
         self._robot = robot
         self.get_logger().info("Hello from sense_module")
         self._proximity_sensors_publisher = self.create_publisher(String, "proximity_sensors", 10)
         self._orientation_sensor_publisher = self.create_publisher(Float32, "orientation_sensor", 10)
         self._img_sensor_publisher = self.create_publisher(String, "camera_sensor", 10)
-        self.timer = self.create_timer(0.1, self.pub_callback)
+        self.timer_proximity = self.create_timer(self._config.read_data("MOTION_WAIT")*1.3, self.my_pub_proximity_sensors)
+        self.timer_orientation = self.create_timer(0.1, self.my_pub_orientation_sensor)
+        self.timer_camera = self.create_timer(0.1, self.my_pub_camera_sensor)
 
     def pub_callback(self):
         self.my_pub_proximity_sensors()
