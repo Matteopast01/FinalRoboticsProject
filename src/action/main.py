@@ -23,32 +23,40 @@ class Subscriber(Node):
         self._robot.do_action("rightMotor", right_value)
         self._robot.do_action("leftMotor", left_value)
 
+    def go_forward(self):
+        self.set_speed(0.8, 0.8)
+        sleep(MOTION_WAIT)
+        self.set_speed(0, 0)
+
+    def go_back(self):
+        self.set_speed(-0.5, -0.5)
+        sleep(MOTION_WAIT)
+        self.set_speed(0, 0)
+
+    def turn_left(self):
+        self.set_speed(0.15, -0.15)
+        sleep(MOTION_WAIT)
+        self.set_speed(0, 0)
+
+    def turn_right(self):
+        self.set_speed(-0.15, +0.15)
+        sleep(MOTION_WAIT)
+        self.set_speed(0, 0)
+
     def sub_callback(self, msg: String):
         self.get_logger().info(str(msg))
         action = str(msg)
-        if action == "go_forward":
-            self.set_speed(0.8, 0.8)
-            sleep(MOTION_WAIT)
-            self.set_speed(0, 0)
-
-        elif action == "go_back":
-            self.set_speed(-0.5, -0.5)
-            sleep(MOTION_WAIT)
-            self.set_speed(0, 0)
-
-        elif action == "turn_left":
-            self.set_speed(0.15, -0.15)
-            sleep(MOTION_WAIT)
-            self.set_speed(0,0)
-
-        elif action == "turn_right":
-            self.set_speed(-0.15, +0.15)
-            sleep(MOTION_WAIT)
-            self.set_speed(0, 0)
+        try:
+            getattr(self, action)()
+        except:
+            raise Exception(f"Unknown command {action}")
 
 
 def main(args=None):
+    robot = SimulatedPioneerBody("action_module")
+    robot.start()
     rclpy.init(args=args)
-    node = Subscriber()
+    node = Subscriber(robot)
     rclpy.spin(node)
     rclpy.shtdown()
+    robot.stop()
