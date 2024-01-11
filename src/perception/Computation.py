@@ -1,4 +1,8 @@
-from ..ReadConfig import ReadConfig
+from ReadConfig import ReadConfig
+from pyzbar.pyzbar import decode
+from PIL import Image
+from io import BytesIO
+import cv2
 import numpy as np
 
 
@@ -40,6 +44,10 @@ class Computation:
     def compute_position_node(self, free_side):
         space = self._config.read_data("SPACE")
         return self.compute_position(space, self._angle_side[free_side])
+
+    def recognize_img(self, img):
+        decode_qr = decode(Image.open(BytesIO(img)))
+        return decode_qr[0].data.decode('ascii') == self._config.read_data("STRING_TARGET_ARRIVE")
 
 
 
