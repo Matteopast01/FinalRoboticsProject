@@ -1,4 +1,4 @@
-#! # !/usr/bin/env python3
+#! /usr/bin/env python3
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 from typing import Any, List
 import numpy as np
@@ -14,6 +14,7 @@ MY_SIM_HOST = "host.docker.internal"  # from the container
 
 class SimulatedPioneerBody:
     _sim: Any
+    _sim_vision: Any
     _cSim_client: Any
     _my_sensors_values: dict
     _my_vision_sensor: Any

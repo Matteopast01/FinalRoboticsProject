@@ -1,4 +1,4 @@
-from ReadConfig import ReadConfig
+from isrlab_project.ReadConfig import ReadConfig
 from pyzbar.pyzbar import decode
 from PIL import Image
 from io import BytesIO
@@ -47,13 +47,7 @@ class Computation:
 
     def recognize_img(self, img):
         decode_qr = decode(Image.open(BytesIO(img)))
-        return decode_qr[0].data.decode('ascii') == self._config.read_data("STRING_TARGET_ARRIVE")
-
-
-
-
-
-
-
-
-
+        if len(decode_qr) > 0:
+            return decode_qr[0].data.decode('ascii') == self._config.read_data("STRING_TARGET_ARRIVE")
+        else:
+            return False

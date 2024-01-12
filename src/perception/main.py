@@ -1,12 +1,13 @@
 import json
 from time import sleep
 from typing import Any
-from .perception.Computation import Computation
+from isrlab_project.perception.Computation import Computation
 import base64
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 from std_msgs.msg import Float32
+from std_msgs.msg import Bool
 
 MOTION_WAIT = 0.5
 
@@ -23,20 +24,23 @@ class Perception(Node):
     def __init__(self):
         super().__init__("perception_node")
         self._computation = None
-        self._proximity_sub = self.create_subscription(String, "proximity_sensors", self._proximity_callback, 10)
+        self._proximity_sub = self.create_subscription(String, "proximity_sensors", self.proximity_callback, 10)
         self._orientation_sub = self.create_subscription(Float32, "orientation_sensor", self.orientation_callback, 10)
         self._img_sub = self.create_subscription(String, "camera_sensor", self.camera_callback, 10)
         self._knowledge_pub = self.create_publisher(String, "new_node_map", 10)
         self._controller_pub = self.create_publisher(String, "free_side", 10)
-        self._arrived_pub = self.create_publisher(String, "arrived", 10)
+        self._arrived_pub = self.create_publisher(Bool, "arrived", 10)
         self.get_logger().info("Hello from perception_module")
 
     def camera_callback(self, msg: String):
-        self.get_logger().info(str(msg))
-        action = str(msg.data)
-        bytes = base64.b64decode(action)
-        arrived = self._computation.recognize_img(bytes)
-        self._arrived_pub.publish(json.dumps(arrived))
+        if self._computation is not None:
+            self.get_logger().info(str(msg))
+            action = str(msg.data)
+            bytes = base64.b64decode(action)
+            arrived = self._computation.recognize_img(bytes)
+            arrived_msg = Bool()
+            arrived_msg.data = arrived
+            self._arrived_pub.publish(arrived_msg)
 
 
 
@@ -58,8 +62,12 @@ class Perception(Node):
             if is_side_free:
                 data = self._computation.compute_position_node(side)
                 data_to_send = {"x": data[0], "y": data[1]}
-                self._knowledge_pub.publish(json.dumps(data_to_send))
-        self._controller_pub.publish(json.dumps(controller_dict))
+                pub_know_msg = String()
+                pub_know_msg.data = json.dumps(data_to_send)
+                self._knowledge_pub.publish(pub_know_msg)
+        pub_controller_msg = String()
+        pub_controller_msg.data = json.dumps(controller_dict)
+        self._controller_pub.publish(pub_controller_msg)
 
 
 def main(args=None):
