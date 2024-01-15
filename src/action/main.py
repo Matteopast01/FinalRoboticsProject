@@ -28,22 +28,17 @@ class Subscriber(Node):
 
     def go_forward(self):
         self.set_speed(0.8, 0.8)
-        sleep(self._config.read_data("MOTION_WAIT"))
-        self.set_speed(0, 0)
 
     def go_back(self):
         self.set_speed(-0.8, -0.8)
-        sleep(self._config.read_data("MOTION_WAIT"))
-        self.set_speed(0, 0)
 
     def turn_left(self):
         self.set_speed(0.15, -0.15)
-        sleep(self._config.read_data("MOTION_WAIT"))
-        self.set_speed(0, 0)
 
     def turn_right(self):
         self.set_speed(-0.15, +0.15)
-        sleep(self._config.read_data("MOTION_WAIT"))
+
+    def stop(self):
         self.set_speed(0, 0)
 
     def sub_callback(self, msg: String):

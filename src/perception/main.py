@@ -16,7 +16,6 @@ class Perception(Node):
     _proximity_sub: Any
     _orientation_sub: Any
     _img_sub: Any
-    _knowledge_pub: Any
     _controller_pub: Any
     _arrived_pub: Any
     _computation: Computation
@@ -27,7 +26,6 @@ class Perception(Node):
         self._proximity_sub = self.create_subscription(String, "proximity_sensors", self.proximity_callback, 10)
         self._orientation_sub = self.create_subscription(Float32, "orientation_sensor", self.orientation_callback, 10)
         self._img_sub = self.create_subscription(String, "camera_sensor", self.camera_callback, 10)
-        self._knowledge_pub = self.create_publisher(String, "new_node_map", 10)
         self._controller_pub = self.create_publisher(String, "free_side", 10)
         self._arrived_pub = self.create_publisher(Bool, "arrived", 10)
         self.get_logger().info("Hello from perception_module")
@@ -53,18 +51,13 @@ class Perception(Node):
 
     def proximity_callback(self, msg: String):
         self.get_logger().info("proximity: "+str(msg))
-        self._computation.compute_position_robot()
         data_dict = json.loads(msg.data)
         controller_dict = {}
         for side, value in data_dict.items():
             is_side_free = self._computation.is_side_free(value)
-            controller_dict[side] = is_side_free
             if is_side_free:
                 data = self._computation.compute_position_node(side)
-                data_to_send = {"x": data[0], "y": data[1]}
-                pub_know_msg = String()
-                pub_know_msg.data = json.dumps(data_to_send)
-                self._knowledge_pub.publish(pub_know_msg)
+                controller_dict[side] = {"dx": data[0], "dy": data[1]}
         pub_controller_msg = String()
         pub_controller_msg.data = json.dumps(controller_dict)
         self._controller_pub.publish(pub_controller_msg)
