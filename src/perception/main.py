@@ -27,7 +27,7 @@ class Perception(Node):
         self._orientation_sub = self.create_subscription(Float32, "orientation_sensor", self.orientation_callback, 10)
         self._img_sub = self.create_subscription(String, "camera_sensor", self.camera_callback, 10)
         self._controller_pub = self.create_publisher(String, "free_side", 10)
-        self._arrived_pub = self.create_publisher(Bool, "arrived", 10)
+        self._arrived_pub = self.create_publisher(String, "arrived", 10)
         self.get_logger().info("Hello from perception_module")
 
     def camera_callback(self, msg: String):
@@ -36,7 +36,7 @@ class Perception(Node):
             action = str(msg.data)
             bytes = base64.b64decode(action)
             arrived = self._computation.recognize_img(bytes)
-            arrived_msg = Bool()
+            arrived_msg = String()
             arrived_msg.data = arrived
             self._arrived_pub.publish(arrived_msg)
 

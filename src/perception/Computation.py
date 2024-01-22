@@ -1,3 +1,5 @@
+import json
+
 from isrlab_project.ReadConfig import ReadConfig
 from pyzbar.pyzbar import decode
 from PIL import Image
@@ -36,6 +38,10 @@ class Computation:
     def recognize_img(self, img):
         decode_qr = decode(Image.open(BytesIO(img)))
         if len(decode_qr) > 0:
-            return decode_qr[0].data.decode('ascii') == self._config.read_data("STRING_TARGET_ARRIVE")
+            text = decode_qr[0].data.decode('ascii')
+            text_splitted = text.split("#")
+            dict_result = {"arrived": True, "pos": [text_splitted[0], text_splitted[1]], "text": text_splitted[2]}
+            return json.dumps(dict_result)
         else:
-            return False
+            dict_result = {"arrived": False, "pos": [-1, -1], "text": ""}
+            return json.dumps(dict_result)
