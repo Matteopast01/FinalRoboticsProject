@@ -19,6 +19,7 @@ class Perception(Node):
     _controller_pub: Any
     _arrived_pub: Any
     _computation: Computation
+    _orientation_pub: Any
 
     def __init__(self):
         super().__init__("perception_node")
@@ -28,6 +29,7 @@ class Perception(Node):
         self._img_sub = self.create_subscription(String, "camera_sensor", self.camera_callback, 10)
         self._controller_pub = self.create_publisher(String, "free_side", 10)
         self._arrived_pub = self.create_publisher(String, "arrived", 10)
+        self._orientation_pub = self.create_publisher(Float32, "orientation", 10)
         self.get_logger().info("Hello from perception_module")
 
     def camera_callback(self, msg: String):
@@ -49,6 +51,10 @@ class Perception(Node):
         else:
             self._computation.set_orientation(msg.data)
 
+        orientation_msg = Float32()
+        orientation_msg.data = self._computation.get_orientation()
+        self._orientation_pub.publish(orientation_msg)
+
     def proximity_callback(self, msg: String):
         self.get_logger().info("proximity: "+str(msg))
         data_dict = json.loads(msg.data)
@@ -61,6 +67,8 @@ class Perception(Node):
         pub_controller_msg = String()
         pub_controller_msg.data = json.dumps(controller_dict)
         self._controller_pub.publish(pub_controller_msg)
+
+
 
 
 def main(args=None):

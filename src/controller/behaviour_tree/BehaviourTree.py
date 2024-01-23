@@ -5,12 +5,14 @@ from py_trees.common import Status
 from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
-from isrlab_project.controller.behaviour_tree.CheckFinalGoal import CheckFinalGoal
+from isrlab_project.controller.behaviour_tree.CheckFinalGoal import CheckEndGame
 from isrlab_project.controller.behaviour_tree.CheckPositionGoal import CheckPositionGoal
+from isrlab_project.controller.behaviour_tree.CheckFinalGoal import CheckFinalGoal
 from isrlab_project.controller.behaviour_tree.ComputeNextNode import ComputeNextNode
 from isrlab_project.controller.behaviour_tree.Error import Error
 from isrlab_project.controller.behaviour_tree.GoNextNode import GoNextNode
 from isrlab_project.controller.behaviour_tree.SetNewGoal import SetNewGoal
+from isrlab_project.controller.behaviour_tree.SetCurrentPosition import SetCurrentPosition
 
 
 class BehaviorTree:
@@ -27,6 +29,7 @@ class BehaviorTree:
         check_position_goal = CheckPositionGoal(name="CheckPositionGoal")
         error = Error(name="error")
         set_new_goal = SetNewGoal(name="SetNewGoal")
+        check_end_game = CheckEndGame(name="CheckFinalGoal")
         check_final_goal = CheckFinalGoal(name="CheckFinalGoal")
 
         #level nodes
@@ -39,12 +42,16 @@ class BehaviorTree:
 
         sequence_2b_3l = Sequence(name="sequence2B3L", memory=True)
 
+        selector_2b_4l = Selector(name="selector2B4L", memory=True)
+
         #add children
-        sequence_2b_3l.add_children([set_new_goal])
+        sequence_2b_3l.add_children([selector_2b_4l])
         selector_2b_2l.add_children([error, sequence_2b_3l])
         sequence_2b_1l.add_children([selector_2b_2l, check_position_goal])
         sequence_3b_1l.add_children([go_next_node, compute_next_node])
-        root.add_children([check_final_goal, sequence_2b_1l, sequence_3b_1l])
+
+        selector_2b_4l.add_children([check_final_goal, set_new_goal ])
+        root.add_children([check_end_game, sequence_2b_1l, sequence_3b_1l])
 
         self._root = root
 

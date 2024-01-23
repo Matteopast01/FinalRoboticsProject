@@ -13,6 +13,8 @@ class Knowledge:
     _goal: tuple
     _text_goal: str
     _arrived_data_json: str
+    _end_game: bool
+    _orientation: float
 
     def __new__(cls, goal):
         if not hasattr(cls, 'instance'):
@@ -30,11 +32,20 @@ class Knowledge:
     def get_graph(self):
         return self._map_graph
 
+    def get_end_game(self):
+        return self._end_game
+
     def get_current_node(self):
         return self._current_node
 
     def get_goal(self):
         return self._goal
+
+    def get_orientation(self):
+        return self._orientation
+
+    def set_orientation(self, orientation):
+        self._orientation = orientation
 
     def set_current_node(self, new_current_node):
         self._current_node = new_current_node
@@ -44,6 +55,9 @@ class Knowledge:
 
     def set_goal(self, new_goal):
         self._goal = new_goal
+
+    def set_end_game(self, end_game):
+        self._end_game = end_game
 
     def set_arrived_data_json(self, json_str):
         self._arrived_data_json = json_str

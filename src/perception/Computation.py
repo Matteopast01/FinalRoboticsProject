@@ -9,14 +9,16 @@ import numpy as np
 
 
 class Computation:
-
     _orientation: float
     _config: ReadConfig
-    _angle_side = {"left": -np.pi/2, "right": np.pi/2, "center": 0}
+    _angle_side = {"left": -np.pi / 2, "right": np.pi / 2, "center": 0}
 
     def __init__(self, start_orientation):
         self._config = ReadConfig()
         self._orientation = start_orientation
+
+    def get_orientation(self):
+        return self._orientation
 
     def set_orientation(self, orientation):
         self._orientation = orientation

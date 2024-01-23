@@ -23,6 +23,7 @@ class Controller(Node):
     _action_pub: Any
     _behavior_tree: BehaviourTree
     _config: ReadConfig
+    _orientation_sub: Any
 
     def __init__(self):
         super().__init__("controller_node")
@@ -32,10 +33,12 @@ class Controller(Node):
         self._new_node_sub = self.create_subscription(String, "new_node_map", self.proximity_callback, 10)
         self._free_side_sub = self.create_subscription(String, "free_side", self.proximity_callback, 10)
         self._arrived_sub = self.create_subscription(String, "arrived", self.proximity_callback, 10)
+        self._orientation_sub = self.create_subscription(Float32, "orientation", self.orientation_callback, 10)
 
         self._action_pub = self.create_publisher(String, "action_topic", 10)
 
         self.get_logger().info("Hello from controller_module")
+
 
     def free_side_callback(self, msg: String):
         self.get_logger().info("free side: " + str(msg))
@@ -54,6 +57,10 @@ class Controller(Node):
     def arrived_callback(self, msg: String):
         self.get_logger().info("arrived: " + str(msg))
         Knowledge().set_arrived_data_json(msg.data)
+
+    def orientation_callback(self, msg: Float32):
+        self.get_logger().info("orientation: " + str(msg))
+        Knowledge().set_orientation(msg.data)
 
 
 def main(args=None):

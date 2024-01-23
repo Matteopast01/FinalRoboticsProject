@@ -6,19 +6,19 @@ from py_trees.composites import Selector
 from py_trees import logging as log_tree
 
 
-class CheckFinalGoal(Behaviour):
+class SetCurrentPosition(Behaviour):
   def __init__(self, name):
-    super(CheckFinalGoal, self).__init__(name)
+    super(SetCurrentPosition, self).__init__(name)
 
 
   def setup(self):
-    self.logger.debug(f"Action::setup {self.name}")
+    self.logger.debug(f"SetCurrentPosition::setup {self.name}")
 
   def initialise(self):
-    self.logger.debug(f"Action::initialise {self.name}")
+    self.logger.debug(f"SetCurrentPosition::initialise {self.name}")
 
   def update(self):
     K
   def terminate(self, new_status):
-    self.logger.debug(f"Action::terminate {self.name} to {new_status}")
+    self.logger.debug(f"SetCurrentPosition::terminate {self.name} to {new_status}")
 
