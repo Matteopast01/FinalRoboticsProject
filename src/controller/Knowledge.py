@@ -15,8 +15,11 @@ class Knowledge:
     _arrived_data_json: str
     _end_game: bool
     _orientation: float
+    _start_action_time: float
+    _configuration: ReadConfig
 
     def __new__(cls, goal):
+        # TODO initialize attributes in the constructor
         if not hasattr(cls, 'instance'):
             cls.instance = super(Knowledge, cls).__new__(cls)
             cls.instance._map_graph = MapGraph((0, 0))
@@ -24,6 +27,7 @@ class Knowledge:
             cls.instance._goal = goal
             cls.instance._text_goal = ""
             cls.instance._arrived = False
+            cls._configuration = ReadConfig()
         return cls.instance
 
     def get_arrived_data(self):
@@ -43,6 +47,12 @@ class Knowledge:
 
     def get_orientation(self):
         return self._orientation
+
+    def get_start_action_time(self):
+        return self._start_action_time
+
+    def set_start_action_time(self, start_action_time):
+        self._start_action_time = start_action_time
 
     def set_orientation(self, orientation):
         self._orientation = orientation
@@ -67,3 +77,6 @@ class Knowledge:
 
     def add_neighbors(self, side, neighbor):
         self._neighbors[side] = neighbor
+
+    def read_config_var(self, var_name):
+        self._configuration.read_data(var_name)
