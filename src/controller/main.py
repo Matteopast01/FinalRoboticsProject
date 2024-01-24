@@ -27,7 +27,7 @@ class Controller(Node):
 
     def __init__(self):
         super().__init__("controller_node")
-        self._behavior_tree = Graph((0, 0))
+        self._behavior_tree = BehaviourTree(self)
         self._config = ReadConfig()
 
         self._new_node_sub = self.create_subscription(String, "new_node_map", self.proximity_callback, 10)
@@ -57,6 +57,11 @@ class Controller(Node):
     def orientation_callback(self, msg: Float32):
         self.get_logger().info("orientation: " + str(msg))
         Knowledge().set_orientation(msg.data)
+
+    def perform_action(self, action):
+        action_msg = String()
+        action_msg.data = action
+        self._action_pub.publish(action_msg)
 
 
 def main(args=None):

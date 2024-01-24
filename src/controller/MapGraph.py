@@ -8,9 +8,11 @@ class MapGraph:
     _queue: list
     _current_node: tuple
     _radius: float
+    _node_distance_threshold: float
 
     def __init__(self, start_node):
         self._radius = ReadConfig().read_data("SPACE")/2
+        self._node_distance_threshold = ReadConfig().read_data("NODE_DISTANCE_THRESHOLD")
         self._graph = {start_node: []}
         self._visited.add(start_node)
         self._queue.append(start_node)
@@ -23,6 +25,10 @@ class MapGraph:
 
     def set_current_node(self, current_node):
         self._current_node = current_node
+
+    def is_nodes_position_equals(self, node1, node2):
+        distance = np.sqrt((node1[0] - node2[0]) ** 2 + (node1[1] - node2[1]) ** 2)
+        return distance < self._node_distance_threshold
 
     def is_node_new(self, node_from: tuple, new_node: tuple):
         distance = np.sqrt((new_node[0]-node_from[0])**2 + (new_node[1]-node_from[1])**2)
