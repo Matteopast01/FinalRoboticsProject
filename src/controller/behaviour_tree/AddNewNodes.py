@@ -26,7 +26,7 @@ class AddNewNodes(Behaviour):
             new_node_y = current_node[1] + delta[1]
             new_node = (new_node_x, new_node_y)
             Knowledge().add_neighbors(side, new_node)
-            Knowledge().add_node(current_node, new_node)
+            Knowledge().get_graph().add_node(current_node, new_node)
         return Status.SUCCESS
 
     def terminate(self, new_status):
