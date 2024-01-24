@@ -17,6 +17,7 @@ class Knowledge:
     _orientation: float
     _start_action_time: float
     _configuration: ReadConfig
+    _delta_pos_neighbors: dict
 
     def __new__(cls, goal):
         # TODO initialize attributes in the constructor
@@ -28,6 +29,7 @@ class Knowledge:
             cls.instance._text_goal = ""
             cls.instance._arrived = False
             cls._configuration = ReadConfig()
+            cls._delta_pos_neighbors = {}
         return cls.instance
 
     def get_arrived_data(self):
@@ -50,6 +52,9 @@ class Knowledge:
 
     def get_start_action_time(self):
         return self._start_action_time
+
+    def get_delta_pos_neighbors(self, side):
+        return self._delta_pos_neighbors[side]
 
     def set_start_action_time(self, start_action_time):
         self._start_action_time = start_action_time
@@ -77,6 +82,9 @@ class Knowledge:
 
     def add_neighbors(self, side, neighbor):
         self._neighbors[side] = neighbor
+
+    def add_delta_pos_neighbors(self, side, neighbor):
+        self._delta_pos_neighbors[side] = neighbor
 
     def read_config_var(self, var_name):
         self._configuration.read_data(var_name)

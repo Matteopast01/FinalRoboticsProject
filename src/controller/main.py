@@ -42,15 +42,11 @@ class Controller(Node):
 
     def free_side_callback(self, msg: String):
         self.get_logger().info("free side: " + str(msg))
-        map_graph = Knowledge().get_graph()
-        current_node = Knowledge().get_current_node()
         dict_side = json.loads(msg.data)
-        Knowledge().reset_neighbors()
         for side, dict_new_node in dict_side.items():
-            new_node = (current_node[0] + dict_new_node["x"], current_node[1] + dict_new_node["y"])
+            new_node = (dict_new_node["x"], dict_new_node["y"])
             Knowledge().add_neighbors(side, new_node)
-            if map_graph.is_node_new(new_node):
-                map_graph.add_node(current_node, new_node)
+            Knowledge().get_graph()
 
         self._behavior_tree.tick()
 
