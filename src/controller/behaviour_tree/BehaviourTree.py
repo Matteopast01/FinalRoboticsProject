@@ -5,13 +5,20 @@ from py_trees.common import Status
 from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
-from isrlab_project.controller.behaviour_tree.CheckFinalGoal import CheckEndGame
+
+from isrlab_project.controller.behaviour_tree.CheckFinalGoal import CheckFinalGoal
+from isrlab_project.controller.behaviour_tree.AddNewNodes import AddNewNodes
 from isrlab_project.controller.behaviour_tree.CheckPositionGoal import CheckPositionGoal
 from isrlab_project.controller.behaviour_tree.CheckFinalGoal import CheckFinalGoal
-from isrlab_project.controller.behaviour_tree.ComputeNextNode import ComputeNextNode
 from isrlab_project.controller.behaviour_tree.Error import Error
-from isrlab_project.controller.behaviour_tree.GoNextNode import GoNextNode
 from isrlab_project.controller.behaviour_tree.SetNewGoal import SetNewGoal
+from isrlab_project.controller.behaviour_tree.ComputeNodeAndPath import ComputeNodeAndPath
+from isrlab_project.controller.behaviour_tree.FindQrCode import FindQrCode
+from isrlab_project.controller.behaviour_tree.GoToNextPathNode import GoToNextPathNode
+from isrlab_project.controller.behaviour_tree.SetEndGame import SetEndGame
+from isrlab_project.controller.behaviour_tree.CheckEndGame import CheckEndGame
+from isrlab_project.controller.behaviour_tree.IsThereAComputedPath import IsThereAComputedPath
+from isrlab_project.controller.behaviour_tree.ResetPriorityQueue import ResetPriorityQueue
 from isrlab_project.controller.behaviour_tree.SetCurrentPosition import SetCurrentPosition
 
 
@@ -22,36 +29,25 @@ class BehaviorTree:
         self._create_bt()
 
     def _create_bt(self):
+        # leaves
+        checkEndGame = CheckEndGame(name="CheckEndGame")
+        setCurrentPosition = SetCurrentPosition(name="SetCurrentPosition")
+        addNewNodes = AddNewNodes(name="AddNewNodes")
+        checkPositionalGoal = CheckPositionGoal(name="CheckPositionalGoal")
+        error2B = Error(name="Error2B")
+        findQrCode = FindQrCode(name="FindQrCode")
+        checkFinalGoal = CheckFinalGoal(name="checkFinalGoal")
+        setEndGame = SetEndGame(name="SetEndGame")
+        setNewGoal = SetNewGoal(name="SetNewGoal")
+        resetPriorityQueue = ResetPriorityQueue(name="ResetPriorityQueue")
+        isThereAComputedPath = IsThereAComputedPath(name="IsThereAComputedPath")
+        computeNodeAndPath = ComputeNodeAndPath(name="ComputeNodeAndPath")
+        error3B = Error(name="error3B")
+        goToNextPathNode = GoToNextPathNode(name="GoToNextPathNode")
 
-        #leaves
-        go_next_node = GoNextNode(name="GoNextNode")
-        compute_next_node = ComputeNextNode(name="ComputeNextNode")
-        check_position_goal = CheckPositionGoal(name="CheckPositionGoal")
-        error = Error(name="error")
-        set_new_goal = SetNewGoal(name="SetNewGoal")
-        check_end_game = CheckEndGame(name="CheckFinalGoal")
-        check_final_goal = CheckFinalGoal(name="CheckFinalGoal")
+        # level nodes
 
-        #level nodes
-        root = Selector(name="selector", memory=True)
-
-        sequence_2b_1l = Sequence(name="sequence2B1L", memory=True)
-        sequence_3b_1l = Sequence(name="sequence3B1L", memory=True)
-
-        selector_2b_2l = Selector(name="selector2B2L", memory=True)
-
-        sequence_2b_3l = Sequence(name="sequence2B3L", memory=True)
-
-        selector_2b_4l = Selector(name="selector2B4L", memory=True)
-
-        #add children
-        sequence_2b_3l.add_children([selector_2b_4l])
-        selector_2b_2l.add_children([error, sequence_2b_3l])
-        sequence_2b_1l.add_children([selector_2b_2l, check_position_goal])
-        sequence_3b_1l.add_children([go_next_node, compute_next_node])
-
-        selector_2b_4l.add_children([check_final_goal, set_new_goal ])
-        root.add_children([check_end_game, sequence_2b_1l, sequence_3b_1l])
+        # add children
 
         self._root = root
 
