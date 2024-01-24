@@ -5,6 +5,7 @@ from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
 from isrlab_project.controller.main import Controller
+from isrlab_project.controller.Knowledge import Knowledge
 
 
 class FinalQrCode(Behaviour):
@@ -22,6 +23,12 @@ class FinalQrCode(Behaviour):
 
     def update(self):
         self.logger.debug(f"FinalQrCode::update {self.name}")
+        self._controller.perform_action("stop")
+        if Knowledge().get_arrived_data()["arrived"]:
+          return Status.SUCCESS
+        else:
+          self._controller.perform_action("turn_left")
+          return Status.RUNNING
 
     def terminate(self, new_status):
         self.logger.debug(f"FinalQrCode::terminate {self.name} to {new_status}")
