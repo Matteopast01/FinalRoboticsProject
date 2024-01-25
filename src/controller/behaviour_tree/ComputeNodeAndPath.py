@@ -5,6 +5,7 @@ from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
 from isrlab_project.controller.main import Controller
+from isrlab_project.controller.Knowledge import Knowledge
 
 
 class ComputeNodeAndPath(Behaviour):
@@ -22,6 +23,14 @@ class ComputeNodeAndPath(Behaviour):
 
     def update(self):
         self.logger.debug(f"ComputeNodeAndPath::update {self.name}")
+        priority_queue = Knowledge().get_graph().get_priority_queue()
+        while len(priority_queue) > 0:
+            node = priority_queue.pop()
+            path = Knowledge.get_graph().path_to_next_node(node)
+            if len(path) > 0:
+                Knowledge.set_path(path)
+                return Status.SUCCESS
+        return Status.FAILURE
 
     def terminate(self, new_status):
         self.logger.debug(f"ComputeNodeAndPath::terminate {self.name} to {new_status}")
