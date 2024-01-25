@@ -73,6 +73,6 @@ class MapGraph:
                         while node_u in tree:
                             path.insert(0, node_u)
                             node_u = tree[node_u]
-                        path.insert(0, node_u)  # forse va tolto
+                        #path.insert(0, node_u)  # forse va tolto
                         return path
         return []

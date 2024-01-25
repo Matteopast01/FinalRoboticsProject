@@ -26,12 +26,13 @@ class AddNewNodes(Behaviour):
         self._controller.print_log(f"AddNewNodes::update {self.name}")
         for side in ["left", "right", "center"]:
             current_node = Knowledge().get_current_node()
-            delta = Knowledge().get_delta_pos_neighbors(side)
-            new_node_x = current_node[0] + delta[0]
-            new_node_y = current_node[1] + delta[1]
-            new_node = (new_node_x, new_node_y)
-            Knowledge().add_neighbors(side, new_node)
-            Knowledge().get_graph().add_node(current_node, new_node)
+            if Knowledge().is_side_free(side):
+                delta = Knowledge().get_delta_pos_neighbors(side)
+                new_node_x = current_node[0] + delta[0]
+                new_node_y = current_node[1] + delta[1]
+                new_node = (new_node_x, new_node_y)
+                Knowledge().add_neighbors(side, new_node)
+                Knowledge().get_graph().add_node(current_node, new_node)
         return Status.SUCCESS
 
     def terminate(self, new_status):

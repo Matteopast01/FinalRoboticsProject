@@ -66,6 +66,9 @@ class Knowledge:
     def get_delta_pos_neighbors(self, side):
         return self._delta_pos_neighbors[side]
 
+    def is_side_free(self, side):
+        return side in self._delta_pos_neighbors
+
     def get_path(self):
         return self._path
 
