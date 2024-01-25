@@ -5,7 +5,6 @@ from py_trees.common import Status
 from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
-
 from isrlab_project.controller.behaviour_tree.AddNewNodes import AddNewNodes
 from isrlab_project.controller.behaviour_tree.CheckPositionGoal import CheckPositionGoal
 from isrlab_project.controller.behaviour_tree.CheckFinalGoal import CheckFinalGoal
