@@ -64,6 +64,9 @@ class Knowledge:
     def get_text_goal(self):
         return self._text_goal
 
+    def get_neighbor(self, side):
+        return self._neighbors[side]
+
     def set_path(self, new_path):
         self._path = new_path
 
