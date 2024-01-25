@@ -3,6 +3,7 @@ import json
 from isrlab_project.ReadConfig import ReadConfig
 import numpy as np
 from isrlab_project.controller.MapGraph import MapGraph
+from time import time
 
 
 class Knowledge:
@@ -24,14 +25,19 @@ class Knowledge:
         # TODO initialize attributes in the constructor
         if not hasattr(cls, 'instance'):
             cls.instance = super(Knowledge, cls).__new__(cls)
-            cls.instance._map_graph = MapGraph((0, 0))
             cls._neighbors = {}
             cls.instance._goal = goal
             cls.instance._text_goal = ""
             cls.instance._arrived = False
             cls.instance._configuration = ReadConfig()
+            cls.instance._current_node = (0,0)
+            start_goal = cls.instance._configuration.read_data("START_GOAL")
+            cls.instance._map_graph = MapGraph((0, 0), tuple(start_goal))
             cls.instance._delta_pos_neighbors = {}
             cls.instance._path = []
+            cls.instance._end_game = False
+            cls.instance._orientation = 0
+            cls.instance._start_action_time = time()
         return cls.instance
 
     def get_arrived_data(self):
@@ -107,5 +113,5 @@ class Knowledge:
         self._configuration.read_data(var_name)
 
     def decode_text_qr(self, text):
-        pass
+        return text
         #TODO implement decode text passed has to be decoded

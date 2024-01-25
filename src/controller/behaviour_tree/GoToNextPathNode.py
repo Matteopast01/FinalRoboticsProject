@@ -1,16 +1,17 @@
 from time import sleep
+from typing import Any
+
 from py_trees.behaviour import Behaviour
 from py_trees.common import Status
 from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
 from random import random
-from isrlab_project.controller.main import Controller
 from isrlab_project.controller.Knowledge import Knowledge
 
 
 class GoToNextPathNode(Behaviour):
-    _controller: Controller
+    _controller: Any
     _next_node: tuple
     _setted_next_node: bool
     _action: str
