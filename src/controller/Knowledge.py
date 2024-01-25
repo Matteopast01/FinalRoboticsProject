@@ -18,6 +18,7 @@ class Knowledge:
     _start_action_time: float
     _configuration: ReadConfig
     _delta_pos_neighbors: dict
+    _path: list
 
     def __new__(cls, goal):
         # TODO initialize attributes in the constructor
@@ -28,8 +29,9 @@ class Knowledge:
             cls.instance._goal = goal
             cls.instance._text_goal = ""
             cls.instance._arrived = False
-            cls._configuration = ReadConfig()
-            cls._delta_pos_neighbors = {}
+            cls.instance._configuration = ReadConfig()
+            cls.instance._delta_pos_neighbors = {}
+            cls.instance._path = []
         return cls.instance
 
     def get_arrived_data(self):
@@ -56,6 +58,15 @@ class Knowledge:
     def get_delta_pos_neighbors(self, side):
         return self._delta_pos_neighbors[side]
 
+    def get_path(self):
+        return self._path
+
+    def get_text_goal(self):
+        return self._text_goal
+
+    def set_path(self, new_path):
+        self._path = new_path
+
     def set_start_action_time(self, start_action_time):
         self._start_action_time = start_action_time
 
@@ -77,6 +88,9 @@ class Knowledge:
     def set_arrived_data_json(self, json_str):
         self._arrived_data_json = json_str
 
+    def set_text_goal(self, new_text_goal):
+        self._text_goal = new_text_goal
+
     def reset_neighbors(self):
         self._neighbors = {}
 
@@ -88,3 +102,7 @@ class Knowledge:
 
     def read_config_var(self, var_name):
         self._configuration.read_data(var_name)
+
+    def decode_text_qr(self, text):
+        pass
+        #TODO implement decode text passed has to be decoded
