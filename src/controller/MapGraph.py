@@ -34,8 +34,16 @@ class MapGraph:
         distance = np.sqrt((new_node[0]-node_from[0])**2 + (new_node[1]-node_from[1])**2)
         return distance > self._radius*2
 
+    def reset_priority_queue(self, new_goal):
+        pass
+        # TODO implement method (aggiungi tutti i nodi del grafo alla priority queue secondo la nuova priorità (distanza in linea d’aria rispetto all’obiettivo).
+
     def get_next_node(self):
         return self._queue.pop(-1)
+
+
+    def get_priority_queue(self):
+        return self._queue
 
     def path_to_next_node(self, arrive_node: tuple):
         visited = {self._current_node}
