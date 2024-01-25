@@ -23,7 +23,9 @@ class IsThereAComputedPath(Behaviour):
 
     def update(self):
         self.logger.debug(f"IsThereAComputedPath::update {self.name}")
-
+        if len(Knowledge.get_path()) > 0:
+            return Status.SUCCESS
+        return Status.FAILURE
 
     def terminate(self, new_status):
         self.logger.debug(f"IsThereAComputedPath::terminate {self.name} to {new_status}")
