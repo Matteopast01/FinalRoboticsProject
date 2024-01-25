@@ -24,10 +24,11 @@ class ComputeNodeAndPath(Behaviour):
 
     def update(self):
         self.logger.debug(f"ComputeNodeAndPath::update {self.name}")
-        priority_queue = Knowledge().get_graph().get_priority_queue()
-        while len(priority_queue) > 0:
-            node = priority_queue.pop()
-            path = Knowledge.get_graph().path_to_next_node(node)
+        current_position = Knowledge().get_current_node()
+        graph = Knowledge().get_graph()
+        while graph.is_priority_queue_empty():
+            node = graph.next_node()
+            path = graph.path_to_next_node(current_position, node)
             if len(path) > 0:
                 Knowledge.set_path(path)
                 return Status.SUCCESS

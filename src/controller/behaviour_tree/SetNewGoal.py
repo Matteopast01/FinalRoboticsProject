@@ -1,15 +1,15 @@
 from time import sleep
-from typing import Any
-
 from py_trees.behaviour import Behaviour
 from py_trees.common import Status
 from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
-from src.controller.Knowledge import Knowledge
+from isrlab_project.controller.main import Controller
+from isrlab_project.controller.Knowledge import Knowledge
+
 
 class SetNewGoal(Behaviour):
-    _controller: Any
+    _controller: Controller
 
     def __init__(self, name, controller):
         super(SetNewGoal, self).__init__(name)
