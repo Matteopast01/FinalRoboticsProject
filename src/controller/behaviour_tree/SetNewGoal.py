@@ -5,9 +5,7 @@ from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
 from isrlab_project.controller.main import Controller
-
 from src.controller.Knowledge import Knowledge
-
 
 class SetNewGoal(Behaviour):
     _controller: Controller
