@@ -6,6 +6,8 @@ from py_trees.composites import Selector
 from py_trees import logging as log_tree
 from isrlab_project.controller.main import Controller
 
+from isrlab_project.controller.Knowledge import Knowledge
+
 
 class Error(Behaviour):
     _controller: Controller
@@ -22,6 +24,8 @@ class Error(Behaviour):
 
     def update(self):
         self.logger.debug(f"Error::update {self.name}")
+        Knowledge().set_end_game(True)
+        return Status.SUCCESS
 
     def terminate(self, new_status):
         self.logger.debug(f"Error::terminate {self.name} to {new_status}")

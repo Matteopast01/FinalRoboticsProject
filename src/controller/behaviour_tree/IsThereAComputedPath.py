@@ -5,6 +5,7 @@ from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
 from isrlab_project.controller.main import Controller
+from isrlab.project.controller.Knowledge import Knowledge
 
 
 class IsThereAComputedPath(Behaviour):
@@ -22,6 +23,7 @@ class IsThereAComputedPath(Behaviour):
 
     def update(self):
         self.logger.debug(f"IsThereAComputedPath::update {self.name}")
+
 
     def terminate(self, new_status):
         self.logger.debug(f"IsThereAComputedPath::terminate {self.name} to {new_status}")
