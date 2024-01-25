@@ -20,24 +20,26 @@ class Knowledge:
     _configuration: ReadConfig
     _delta_pos_neighbors: dict
     _path: list
+    _action: str
 
-    def __new__(cls, goal):
+    def __new__(cls):
         # TODO initialize attributes in the constructor
         if not hasattr(cls, 'instance'):
             cls.instance = super(Knowledge, cls).__new__(cls)
             cls._neighbors = {}
-            cls.instance._goal = goal
             cls.instance._text_goal = ""
             cls.instance._arrived = False
             cls.instance._configuration = ReadConfig()
             cls.instance._current_node = (0,0)
             start_goal = cls.instance._configuration.read_data("START_GOAL")
+            cls.instance._goal = start_goal
             cls.instance._map_graph = MapGraph((0, 0), tuple(start_goal))
             cls.instance._delta_pos_neighbors = {}
             cls.instance._path = []
             cls.instance._end_game = False
             cls.instance._orientation = 0
             cls.instance._start_action_time = time()
+            cls.instance._action = ""
         return cls.instance
 
     def get_arrived_data(self):
@@ -72,6 +74,9 @@ class Knowledge:
 
     def get_neighbor(self, side):
         return self._neighbors[side]
+
+    def get_action(self):
+        return self._action
 
     def set_path(self, new_path):
         self._path = new_path

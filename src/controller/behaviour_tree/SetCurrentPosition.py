@@ -19,13 +19,13 @@ class SetCurrentPosition(Behaviour):
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"SetCurrentPosition::setup {self.name}")
+        self._controller.print_log(f"SetCurrentPosition::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"SetCurrentPosition::initialise {self.name}")
+        self._controller.print_log(f"SetCurrentPosition::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"SetCurrentPosition::update {self.name}")
+        self._controller.print_log(f"SetCurrentPosition::update {self.name}")
         orientation = Knowledge().get_orientation()
         action = Knowledge().get_action()
         last_position = Knowledge().get_current_node()
@@ -40,4 +40,4 @@ class SetCurrentPosition(Behaviour):
         return Status.SUCCESS
 
     def terminate(self, new_status):
-        self.logger.debug(f"SetCurrentPosition::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"SetCurrentPosition::terminate {self.name} to {new_status}")

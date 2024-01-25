@@ -17,16 +17,16 @@ class SetNewGoal(Behaviour):
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"SetNewGoal::setup {self.name}")
+        self._controller.print_log(f"SetNewGoal::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"SetNewGoal::initialise {self.name}")
+        self._controller.print_log(f"SetNewGoal::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"SetNewGoal::update {self.name}")
+        self._controller.print_log(f"SetNewGoal::update {self.name}")
         new_goal = tuple(Knowledge().get_arrived_data()["pos"])
         Knowledge().set_goal(new_goal)
         return Status.SUCCESS
 
     def terminate(self, new_status):
-        self.logger.debug(f"SetNewGoal::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"SetNewGoal::terminate {self.name} to {new_status}")

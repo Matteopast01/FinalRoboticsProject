@@ -17,15 +17,15 @@ class SetEndGame(Behaviour):
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"SetEndGame::setup {self.name}")
+        self._controller.print_log(f"SetEndGame::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"SetEndGame::initialise {self.name}")
+        self._controller.print_log(f"SetEndGame::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"SetEndGame::update {self.name}")
+        self._controller.print_log(f"SetEndGame::update {self.name}")
         Knowledge().set_end_game(True)
         return Status.SUCCESS
 
     def terminate(self, new_status):
-        self.logger.debug(f"SetEndGame::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"SetEndGame::terminate {self.name} to {new_status}")

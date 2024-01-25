@@ -17,17 +17,17 @@ class CheckEndGame(Behaviour):
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"CheckEndGame::setup {self.name}")
+        self._controller.print_log(f"CheckEndGame::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"CheckEndGame::initialise {self.name}")
+        self._controller.print_log(f"CheckEndGame::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"CheckEndGame::update {self.name}")
+        self._controller.print_log(f"CheckEndGame::update {self.name}")
         if Knowledge().get_end_game():
             return Status.SUCCESS
         else:
             return Status.FAILURE
 
     def terminate(self, new_status):
-        self.logger.debug(f"CheckEndGame::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"CheckEndGame::terminate {self.name} to {new_status}")

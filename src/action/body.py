@@ -1,4 +1,4 @@
-#! # !/usr/bin/env python3
+#!/usr/bin/env python3
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 from typing import Any, List
 

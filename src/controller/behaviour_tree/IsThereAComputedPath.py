@@ -6,7 +6,7 @@ from py_trees.common import Status
 from py_trees.composites import Sequence
 from py_trees.composites import Selector
 from py_trees import logging as log_tree
-from isrlab.project.controller.Knowledge import Knowledge
+from isrlab_project.controller.Knowledge import Knowledge
 
 
 class IsThereAComputedPath(Behaviour):
@@ -17,16 +17,16 @@ class IsThereAComputedPath(Behaviour):
         self_controller = controller
 
     def setup(self):
-        self.logger.debug(f"IsThereAComputedPath::setup {self.name}")
+        self._controller.print_log(f"IsThereAComputedPath::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"IsThereAComputedPath::initialise {self.name}")
+        self._controller.print_log(f"IsThereAComputedPath::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"IsThereAComputedPath::update {self.name}")
+        self._controller.print_log(f"IsThereAComputedPath::update {self.name}")
         if len(Knowledge.get_path()) > 0:
             return Status.SUCCESS
         return Status.FAILURE
 
     def terminate(self, new_status):
-        self.logger.debug(f"IsThereAComputedPath::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"IsThereAComputedPath::terminate {self.name} to {new_status}")

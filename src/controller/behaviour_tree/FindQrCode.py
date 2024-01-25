@@ -9,21 +9,21 @@ from py_trees import logging as log_tree
 from isrlab_project.controller.Knowledge import Knowledge
 
 
-class FinalQrCode(Behaviour):
+class FindQrCode(Behaviour):
     _controller: Any
 
     def __init__(self, name, controller):
-        super(FinalQrCode, self).__init__(name)
+        super(FindQrCode, self).__init__(name)
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"FinalQrCode::setup {self.name}")
+        self._controller.print_log(f"FindQrCode::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"FinalQrCode::initialise {self.name}")
+        self._controller.print_log(f"FindQrCode::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"FinalQrCode::update {self.name}")
+        self._controller.print_log(f"FindQrCode::update {self.name}")
         self._controller.perform_action("stop")
         if Knowledge().get_arrived_data()["arrived"]:
           return Status.SUCCESS
@@ -32,4 +32,4 @@ class FinalQrCode(Behaviour):
           return Status.RUNNING
 
     def terminate(self, new_status):
-        self.logger.debug(f"FinalQrCode::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"FindQrCode::terminate {self.name} to {new_status}")

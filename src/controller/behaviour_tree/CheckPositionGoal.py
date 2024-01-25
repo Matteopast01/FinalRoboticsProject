@@ -17,13 +17,13 @@ class CheckPositionGoal(Behaviour):
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"CheckPositionGoal::setup {self.name}")
+        self._controller.print_log(f"CheckPositionGoal::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"CheckPositionGoal::initialise {self.name}")
+        self._controller.print_log(f"CheckPositionGoal::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"CheckPositionGoal::update {self.name}")
+        self._controller.print_log(f"CheckPositionGoal::update {self.name}")
         current_node = Knowledge().get_current_node()
         goal_node = Knowledge().get_goal()
         reached_goal_node = Knowledge().get_graph().is_nodes_position_equals(current_node, goal_node)
@@ -34,4 +34,4 @@ class CheckPositionGoal(Behaviour):
             return Status.FAILURE
 
     def terminate(self, new_status):
-        self.logger.debug(f"CheckPositionGoal::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"CheckPositionGoal::terminate {self.name} to {new_status}")

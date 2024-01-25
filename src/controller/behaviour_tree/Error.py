@@ -17,15 +17,15 @@ class Error(Behaviour):
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"Error::setup {self.name}")
+        self._controller.print_log(f"Error::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"Error::initialise {self.name}")
+        self._controller.print_log(f"Error::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"Error::update {self.name}")
+        self._controller.print_log(f"Error::update {self.name}")
         Knowledge().set_end_game(True)
         return Status.SUCCESS
 
     def terminate(self, new_status):
-        self.logger.debug(f"Error::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"Error::terminate {self.name} to {new_status}")

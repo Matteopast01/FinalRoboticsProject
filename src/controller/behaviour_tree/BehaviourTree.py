@@ -20,7 +20,7 @@ from isrlab_project.controller.behaviour_tree.ResetPriorityQueue import ResetPri
 from isrlab_project.controller.behaviour_tree.SetCurrentPosition import SetCurrentPosition
 
 
-class BehaviorTree:
+class BehaviourTree:
     _root: Any
 
     def __init__(self, controller_handle):

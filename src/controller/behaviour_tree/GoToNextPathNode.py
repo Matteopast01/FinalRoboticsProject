@@ -22,13 +22,13 @@ class GoToNextPathNode(Behaviour):
         self._setted_next_node = False
 
     def setup(self):
-        self.logger.debug(f"GoToNextNode::setup {self.name}")
+        self._controller.print_log(f"GoToNextNode::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"GoToNextNode::initialise {self.name}")
+        self._controller.print_log(f"GoToNextNode::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"GoToNextNode::update {self.name}")
+        self._controller.print_log(f"GoToNextNode::update {self.name}")
         center_node = Knowledge().get_neighbor("center")
         left_node = Knowledge().get_neighbor("left")
         right_node = Knowledge().get_neighbor("right")
@@ -72,4 +72,4 @@ class GoToNextPathNode(Behaviour):
 
 
     def terminate(self, new_status):
-        self.logger.debug(f"GoToNextNode::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"GoToNextNode::terminate {self.name} to {new_status}")

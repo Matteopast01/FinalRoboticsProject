@@ -17,13 +17,13 @@ class AddNewNodes(Behaviour):
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"AddNewNodes::setup {self.name}")
+        self._controller.print_log(f"AddNewNodes::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"AddNewNodes::initialise {self.name}")
+        self._controller.print_log(f"AddNewNodes::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"AddNewNodes::update {self.name}")
+        self._controller.print_log(f"AddNewNodes::update {self.name}")
         for side in ["left", "right", "center"]:
             current_node = Knowledge().get_current_node()
             delta = Knowledge().get_delta_pos_neighbors(side)
@@ -35,4 +35,4 @@ class AddNewNodes(Behaviour):
         return Status.SUCCESS
 
     def terminate(self, new_status):
-        self.logger.debug(f"AddNewNodes::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"AddNewNodes::terminate {self.name} to {new_status}")

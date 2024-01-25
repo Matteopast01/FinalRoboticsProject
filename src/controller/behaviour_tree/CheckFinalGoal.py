@@ -17,13 +17,13 @@ class CheckFinalGoal(Behaviour):
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"CheckFinalGoal::setup {self.name}")
+        self._controller.print_log(f"CheckFinalGoal::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"CheckFinalGoal::initialise {self.name}")
+        self._controller.print_log(f"CheckFinalGoal::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"CheckFinalGoal::initialise {self.name}")
+        self._controller.print_log(f"CheckFinalGoal::initialise {self.name}")
         text_to_decode = Knowledge().get_arrived_data("text")
         decoded_text = Knowledge().decode_text_qr(text_to_decode)
         if decoded_text == Knowledge().read_config_var():
@@ -33,4 +33,4 @@ class CheckFinalGoal(Behaviour):
             return Status.FAILURE
 
     def terminate(self, new_status):
-        self.logger.debug(f"CheckFinalGoal::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"CheckFinalGoal::terminate {self.name} to {new_status}")

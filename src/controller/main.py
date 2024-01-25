@@ -63,6 +63,9 @@ class Controller(Node):
         action_msg.data = action
         self._action_pub.publish(action_msg)
 
+    def print_log(self, text):
+        self.get_logger().info("python print : "+str(text))
+
 
 def main(args=None):
     rclpy.init(args=args)

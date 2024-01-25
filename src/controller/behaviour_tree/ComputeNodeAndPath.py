@@ -17,13 +17,13 @@ class ComputeNodeAndPath(Behaviour):
         self._controller = controller
 
     def setup(self):
-        self.logger.debug(f"ComputeNodeAndPath::setup {self.name}")
+        self._controller.print_log(f"ComputeNodeAndPath::setup {self.name}")
 
     def initialise(self):
-        self.logger.debug(f"ComputeNodeAndPath::initialise {self.name}")
+        self._controller.print_log(f"ComputeNodeAndPath::initialise {self.name}")
 
     def update(self):
-        self.logger.debug(f"ComputeNodeAndPath::update {self.name}")
+        self._controller.print_log(f"ComputeNodeAndPath::update {self.name}")
         current_position = Knowledge().get_current_node()
         graph = Knowledge().get_graph()
         while graph.is_priority_queue_empty():
@@ -35,4 +35,4 @@ class ComputeNodeAndPath(Behaviour):
         return Status.FAILURE
 
     def terminate(self, new_status):
-        self.logger.debug(f"ComputeNodeAndPath::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"ComputeNodeAndPath::terminate {self.name} to {new_status}")
