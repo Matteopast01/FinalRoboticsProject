@@ -30,9 +30,6 @@ class MapGraph:
     def _compute_ptp_distance(self, node):
         return np.sqrt((self._position_goal[0] - node[0]) ** 2 + (self._position_goal[1] - node[1]) ** 2)
 
-    def set_current_node(self, current_node):
-        self._current_node = current_node
-
     def is_nodes_position_equals(self, node1, node2):
         distance = np.sqrt((node1[0] - node2[0]) ** 2 + (node1[1] - node2[1]) ** 2)
         return distance < self._node_distance_threshold
