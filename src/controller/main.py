@@ -37,7 +37,6 @@ class Controller(Node):
 
         self.get_logger().info("Hello from controller_module")
 
-
     def free_side_callback(self, msg: String):
         self.get_logger().info("free side: " + str(msg))
         dict_side = json.loads(msg.data)
@@ -61,7 +60,7 @@ class Controller(Node):
         self._action_pub.publish(action_msg)
 
     def print_log(self, text):
-        self.get_logger().info("python print : "+str(text))
+        self.get_logger().info("python print : " + str(text))
 
 
 def main(args=None):
