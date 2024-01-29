@@ -53,7 +53,7 @@ class BehaviourTree:
         sequence1L3B = Sequence(name="sequence1L3B", memory=True)
         selector2L1B = Selector(name="selector2L1B", memory=True)
         sequence2L2B = Sequence(name="sequence2L2B", memory=True)
-        root = Sequence(name="root", memory=True)
+        root = Selector(name="root", memory=True)
 
 
         # add children

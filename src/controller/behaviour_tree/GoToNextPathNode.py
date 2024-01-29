@@ -20,6 +20,7 @@ class GoToNextPathNode(Behaviour):
         super(GoToNextPathNode, self).__init__(name)
         self._controller = controller
         self._setted_next_node = False
+        self._action = ""
 
     def setup(self):
         self._controller.print_log(f"GoToNextNode::setup {self.name}")
@@ -29,7 +30,7 @@ class GoToNextPathNode(Behaviour):
 
     def update(self):
         self._controller.print_log(f"GoToNextNode::update {self.name}")
-        #center_node =
+        #center_node = 
         #left_node = Knowledge().get_neighbor("left")
         #right_node = Knowledge().get_neighbor("right")
         current_position = Knowledge().get_current_node()
@@ -69,6 +70,7 @@ class GoToNextPathNode(Behaviour):
                 self._controller.perform_action("turn_right")
                 self._action = "turn_right"
                 return Status.RUNNING
+
 
 
 

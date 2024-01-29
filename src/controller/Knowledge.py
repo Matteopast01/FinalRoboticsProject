@@ -30,7 +30,7 @@ class Knowledge:
             cls.instance._text_goal = ""
             cls.instance._arrived = False
             cls.instance._configuration = ReadConfig()
-            cls.instance._current_node = (0,0)
+            cls.instance._current_node = (0, 0)
             start_goal = cls.instance._configuration.read_data("START_GOAL")
             cls.instance._goal = start_goal
             cls.instance._map_graph = MapGraph((0, 0), tuple(start_goal))
@@ -65,9 +65,6 @@ class Knowledge:
 
     def get_delta_pos_neighbors(self, side):
         return self._delta_pos_neighbors[side]
-
-    def is_side_free(self, side):
-        return side in self._delta_pos_neighbors
 
     def get_path(self):
         return self._path
@@ -117,9 +114,12 @@ class Knowledge:
     def add_delta_pos_neighbors(self, side, neighbor):
         self._delta_pos_neighbors[side] = neighbor
 
+    def is_side_free(self, side):
+        return side in self._delta_pos_neighbors
+
     def read_config_var(self, var_name):
         self._configuration.read_data(var_name)
 
     def decode_text_qr(self, text):
         return text
-        #TODO implement decode text passed has to be decoded
+        # TODO implement decode text passed has to be decoded

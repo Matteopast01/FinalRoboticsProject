@@ -15,8 +15,10 @@ class MapGraph:
         self._radius = ReadConfig().read_data("SPACE") / 2
         self._node_distance_threshold = ReadConfig().read_data("NODE_DISTANCE_THRESHOLD")
         self._graph = {start_node: []}
+        self._visited = set()
         self._visited.add(start_node)
         self._position_goal = position_goal
+        self._queue = PriorityQueue()
         self._queue.put((self._compute_ptp_distance(start_node), start_node))
 
     def add_node(self, node_from: tuple, new_node: tuple):
@@ -46,7 +48,7 @@ class MapGraph:
                 self._queue.put((self._compute_ptp_distance(node), node))
 
     def get_next_node(self):
-        if self._queue.empty():
+        if not self._queue.empty():
             return self._queue.get()[1]
         return None
 
@@ -73,6 +75,6 @@ class MapGraph:
                         while node_u in tree:
                             path.insert(0, node_u)
                             node_u = tree[node_u]
-                        #path.insert(0, node_u)  # forse va tolto
+                       # path.insert(0, node_u)  # forse va tolto
                         return path
         return []

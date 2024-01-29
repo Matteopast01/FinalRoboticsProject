@@ -14,7 +14,7 @@ class IsThereAComputedPath(Behaviour):
 
     def __init__(self, name, controller):
         super(IsThereAComputedPath, self).__init__(name)
-        self_controller = controller
+        self._controller = controller
 
     def setup(self):
         self._controller.print_log(f"IsThereAComputedPath::setup {self.name}")
@@ -24,7 +24,7 @@ class IsThereAComputedPath(Behaviour):
 
     def update(self):
         self._controller.print_log(f"IsThereAComputedPath::update {self.name}")
-        if len(Knowledge.get_path()) > 0:
+        if len(Knowledge().get_path()) > 0:
             return Status.SUCCESS
         return Status.FAILURE
 

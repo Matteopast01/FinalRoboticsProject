@@ -2,10 +2,9 @@ import json
 from time import sleep
 from typing import Any
 import random
-from isrlab_project.controller.Knowledge import Graph
 from isrlab_project.ReadConfig import ReadConfig
 import base64
-from isrlab_project.behaviour_tree import BehaviourTree
+from isrlab_project.controller.behaviour_tree.BehaviourTree import BehaviourTree
 from isrlab_project.controller.Knowledge import Knowledge
 import rclpy
 from rclpy.node import Node
@@ -30,9 +29,8 @@ class Controller(Node):
         self._behavior_tree = BehaviourTree(self)
         self._config = ReadConfig()
 
-        self._new_node_sub = self.create_subscription(String, "new_node_map", self.proximity_callback, 10)
-        self._free_side_sub = self.create_subscription(String, "free_side", self.proximity_callback, 10)
-        self._arrived_sub = self.create_subscription(String, "arrived", self.proximity_callback, 10)
+        self._free_side_sub = self.create_subscription(String, "free_side", self.free_side_callback, 10)
+        self._arrived_sub = self.create_subscription(String, "arrived", self.arrived_callback, 10)
         self._orientation_sub = self.create_subscription(Float32, "orientation", self.orientation_callback, 10)
 
         self._action_pub = self.create_publisher(String, "action_topic", 10)
@@ -44,9 +42,8 @@ class Controller(Node):
         self.get_logger().info("free side: " + str(msg))
         dict_side = json.loads(msg.data)
         for side, dict_new_node in dict_side.items():
-            new_node = (dict_new_node["x"], dict_new_node["y"])
-            Knowledge().add_neighbors(side, new_node)
-            Knowledge().get_graph()
+            new_node = (dict_new_node["dx"], dict_new_node["dy"])
+            Knowledge().add_delta_pos_neighbors(side, new_node)
 
         self._behavior_tree.tick()
 
