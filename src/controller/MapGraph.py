@@ -38,7 +38,7 @@ class MapGraph:
         distance = np.sqrt((new_node[0] - node_from[0]) ** 2 + (new_node[1] - node_from[1]) ** 2)
         return distance > self._radius * 2
 
-    def reset_priority_queue(self, new_goal):
+    def reset_priority_queue(self):
         self._queue = PriorityQueue()
         for key in self._graph.keys():
             for node in self._graph[key]:

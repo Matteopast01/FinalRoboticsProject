@@ -38,6 +38,8 @@ class GoToNextPathNode(Behaviour):
         if not self._setted_next_node:
             self._next_node = Knowledge().get_path()[0]
 
+        
+
         if graph.is_nodes_position_equals(current_position, self._next_node):
             self._setted_next_node = False
             return Status.SUCCESS
@@ -45,31 +47,31 @@ class GoToNextPathNode(Behaviour):
             self._setted_next_node = True
             self._controller.perform_action("go_forward")
             self._action = ""
-            return Status.RUNNING
+            return Status.SUCCESS
         elif self._action != "":
             self._setted_next_node = True
             self._controller.perform_action(self._action)
-            return Status.RUNNING
+            return Status.SUCCESS
         elif Knowledge().is_side_free("left") and graph.is_nodes_position_equals(Knowledge().get_neighbor("left"), self._next_node):
             self._setted_next_node = True
             self._controller.perform_action("turn_left")
             self._action = "turn_left"
-            return Status.RUNNING
+            return Status.SUCCESS
         elif Knowledge().is_side_free("right") and graph.is_nodes_position_equals(Knowledge().get_neighbor("right"), self._next_node):
             self._setted_next_node = True
             self._controller.perform_action("turn_right")
             self._action = "turn_right"
-            return Status.RUNNING
+            return Status.SUCCESS
         else:
             self._setted_next_node = True
             if random() > 0.5:
                 self._controller.perform_action("turn_left")
                 self._action = "turn_left"
-                return Status.RUNNING
+                return Status.SUCCESS
             else:
                 self._controller.perform_action("turn_right")
                 self._action = "turn_right"
-                return Status.RUNNING
+                return Status.SUCCESS
 
 
 

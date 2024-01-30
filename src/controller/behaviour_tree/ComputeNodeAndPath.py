@@ -28,7 +28,6 @@ class ComputeNodeAndPath(Behaviour):
         graph = Knowledge().get_graph()
         while not graph.is_priority_queue_empty():
             node = graph.get_next_node()
-            self._controller.print_log(str(node) + "prova")
             path = graph.path_to_next_node(current_position, node)
             if len(path) > 0:
                 Knowledge().set_path(path)
