@@ -99,6 +99,9 @@ class Knowledge:
     def set_end_game(self, end_game):
         self._end_game = end_game
 
+    def set_action(self, action):
+        self._action = action
+
     def set_arrived_data_json(self, json_str):
         self._arrived_data_json = json_str
 

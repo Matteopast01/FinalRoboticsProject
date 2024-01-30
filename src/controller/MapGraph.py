@@ -25,14 +25,27 @@ class MapGraph:
         self._graph[node_from].append(new_node)
         self._graph[new_node] = [node_from]
         self._visited.add(new_node)
-        self._queue.put((self._compute_ptp_distance(new_node),new_node))
+        self._queue.put((self._compute_ptp_distance(new_node), new_node))
 
-    def _compute_ptp_distance(self, node):
-        return np.sqrt((self._position_goal[0] - node[0]) ** 2 + (self._position_goal[1] - node[1]) ** 2)
+    def _compute_ptp_distance(self, node, node_from=None):
+        if node_from is None:
+            node_from = self._position_goal
+        return np.sqrt((node_from[0] - node[0]) ** 2 + (node_from[1] - node[1]) ** 2)
 
     def is_nodes_position_equals(self, node1, node2):
         distance = np.sqrt((node1[0] - node2[0]) ** 2 + (node1[1] - node2[1]) ** 2)
         return distance < self._node_distance_threshold
+
+    def get_approximate_node(self, node):
+        min_distance = np.inf
+        result_node = None
+        for graph_node in self._graph.keys():
+            distance = self._compute_ptp_distance(node, graph_node)
+            if distance < min_distance and distance < self._node_distance_threshold:
+                min_distance = distance
+                result_node = graph_node
+        return result_node
+
 
     def is_node_new(self, node_from: tuple, new_node: tuple):
         distance = np.sqrt((new_node[0] - node_from[0]) ** 2 + (new_node[1] - node_from[1]) ** 2)
@@ -72,6 +85,6 @@ class MapGraph:
                         while node_u in tree:
                             path.insert(0, node_u)
                             node_u = tree[node_u]
-                       # path.insert(0, node_u)  # forse va tolto
+                        # path.insert(0, node_u)  # forse va tolto
                         return path
         return []
