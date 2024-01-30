@@ -35,7 +35,7 @@ class Computation:
 
     def compute_position_node(self, free_side):
         space = self._config.read_data("SPACE")
-        return self.compute_position(space, self._angle_side[free_side])
+        return self.compute_position(space, self._orientation + self._angle_side[free_side])
 
     def recognize_img(self, img):
         decode_qr = decode(Image.open(BytesIO(img)))
