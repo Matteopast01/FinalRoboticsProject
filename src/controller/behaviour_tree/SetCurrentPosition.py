@@ -34,6 +34,7 @@ class SetCurrentPosition(Behaviour):
         speed = Knowledge().read_config_var("SPEED")
         if action == "go_forward":
             space = (now - start_action_time) * speed
+            Knowledge().set_start_action_time(now)
             x_pos = last_position[0] + space * np.cos(orientation)
             y_pos = last_position[1] + space * np.sin(orientation)
             Knowledge().set_current_node((x_pos, y_pos))
