@@ -1,5 +1,5 @@
 import json
-from time import sleep
+from time import sleep, time
 from typing import Any
 import random
 from isrlab_project.ReadConfig import ReadConfig
@@ -62,6 +62,7 @@ class Controller(Node):
     def perform_action(self, action):
         action_msg = String()
         action_msg.data = action
+        Knowledge().set_start_action_time(time())
         self._action_pub.publish(action_msg)
 
     def print_log(self, text):

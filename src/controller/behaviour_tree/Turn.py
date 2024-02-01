@@ -24,7 +24,8 @@ class Turn(Behaviour):
 
     def update(self):
         self._controller.print_log(f"Turn::update {self.name}")
-        Knowledge().set_end_game(True)
+        action = Knowledge().get_action()
+        self._controller.perform_action(action)
         return Status.SUCCESS
 
     def terminate(self, new_status):

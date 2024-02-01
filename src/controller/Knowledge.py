@@ -19,6 +19,7 @@ class Knowledge:
     _start_action_time: float
     _configuration: ReadConfig
     _delta_pos_neighbors: dict
+    _next_node: tuple
     _path: list
     _action: str
 
@@ -40,7 +41,11 @@ class Knowledge:
             cls.instance._orientation = 0
             cls.instance._start_action_time = time()
             cls.instance._action = ""
+            cls.instance._next_node = None
         return cls.instance
+
+    def get_next_node(self):
+        return self._next_node
 
     def get_arrived_data(self):
         return json.loads(self._arrived_data_json)
@@ -77,6 +82,9 @@ class Knowledge:
 
     def get_action(self):
         return self._action
+
+    def set_next_node(self, new_next_node):
+        self._next_node = new_next_node
 
     def set_path(self, new_path):
         self._path = new_path

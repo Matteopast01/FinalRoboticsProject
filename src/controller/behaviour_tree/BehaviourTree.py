@@ -12,10 +12,8 @@ from isrlab_project.controller.behaviour_tree.Error import Error
 from isrlab_project.controller.behaviour_tree.SetNewGoal import SetNewGoal
 from isrlab_project.controller.behaviour_tree.ComputeNodeAndPath import ComputeNodeAndPath
 from isrlab_project.controller.behaviour_tree.FindQrCode import FindQrCode
-from isrlab_project.controller.behaviour_tree.GoToNextPathNode import GoToNextPathNode
 from isrlab_project.controller.behaviour_tree.SetEndGame import SetEndGame
 from isrlab_project.controller.behaviour_tree.CheckEndGame import CheckEndGame
-from isrlab_project.controller.behaviour_tree.IsThereAComputedPath import IsThereAComputedPath
 from isrlab_project.controller.behaviour_tree.ResetPriorityQueue import ResetPriorityQueue
 from isrlab_project.controller.behaviour_tree.SetCurrentPosition import SetCurrentPosition
 from isrlab_project.controller.behaviour_tree.AmIinNextNode import AmIinNextNode

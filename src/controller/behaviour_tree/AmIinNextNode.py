@@ -24,8 +24,13 @@ class AmiInNextNode(Behaviour):
 
     def update(self):
         self._controller.print_log(f"AmiInNextNode::update {self.name}")
-        Knowledge().set_end_game(True)
-        return Status.SUCCESS
+        current_pos = Knowledge().get_current_node()
+        next_node = Knowledge().get_next_node()
+        graph = Knowledge().get_graph()
+        if next_node is None or graph.is_nodes_position_equals(current_pos, next_node):
+            return Status.SUCCESS
+        else:
+            return Status.FAILURE
 
     def terminate(self, new_status):
         self._controller.print_log(f"AmiInNextNode::terminate {self.name} to {new_status}")

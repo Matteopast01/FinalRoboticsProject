@@ -1,4 +1,4 @@
-from time import sleep
+from time import sleep, time
 from typing import Any
 
 from py_trees.behaviour import Behaviour
@@ -24,7 +24,8 @@ class GoForward(Behaviour):
 
     def update(self):
         self._controller.print_log(f"GoForward::update {self.name}")
-        Knowledge().set_end_game(True)
+        self._controller.perform_action("go_forward")
+        Knowledge().set_action("go_forward")
         return Status.SUCCESS
 
     def terminate(self, new_status):

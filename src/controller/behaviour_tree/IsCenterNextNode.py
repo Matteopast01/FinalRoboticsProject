@@ -24,8 +24,12 @@ class IsCenterNextNode(Behaviour):
 
     def update(self):
         self._controller.print_log(f"IsCenterNextNode::update {self.name}")
-        Knowledge().set_end_game(True)
-        return Status.SUCCESS
+        graph = Knowledge().get_graph()
+        next_node = Knowledge().get_next_node()
+        if Knowledge().is_side_free("center") and graph.is_nodes_position_equals(Knowledge().get_neighbor("center"), next_node):
+            return Status.SUCCESS
+        else:
+            return Status.FAILURE
 
     def terminate(self, new_status):
         self._controller.print_log(f"IsCenterNextNode::terminate {self.name} to {new_status}")
