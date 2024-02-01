@@ -16,6 +16,8 @@ MOTION_WAIT = 0.5
 
 
 class Controller(Node):
+    _print_enabled = ["SetCurrentPosition"]
+    _print_arrived_data = False
     _new_node_sub: Any
     _free_side_sub: Any
     _arrived_sub: Any
@@ -38,7 +40,8 @@ class Controller(Node):
         self.get_logger().info("Hello from controller_module")
 
     def free_side_callback(self, msg: String):
-        self.get_logger().info("free side: " + str(msg))
+        if self._print_arrived_data:
+            self.get_logger().info("free side: " + str(msg))
         dict_side = json.loads(msg.data)
         for side, dict_new_node in dict_side.items():
             new_node = (dict_new_node["dx"], dict_new_node["dy"])
@@ -47,11 +50,13 @@ class Controller(Node):
         self._behavior_tree.tick()
 
     def arrived_callback(self, msg: String):
-        self.get_logger().info("arrived: " + str(msg))
+        if self._print_arrived_data:
+            self.get_logger().info("arrived: " + str(msg))
         Knowledge().set_arrived_data_json(msg.data)
 
     def orientation_callback(self, msg: Float32):
-        self.get_logger().info("orientation: " + str(msg))
+        if self._print_arrived_data:
+            self.get_logger().info("orientation: " + str(msg))
         Knowledge().set_orientation(msg.data)
 
     def perform_action(self, action):
@@ -60,7 +65,10 @@ class Controller(Node):
         self._action_pub.publish(action_msg)
 
     def print_log(self, text):
-        self.get_logger().info("python print : " + str(text))
+        splitted_text = text.split("::")
+        node_name = splitted_text[0]
+        if node_name in self._print_enabled:
+            self.get_logger().info("python print : " + str(text))
 
 
 def main(args=None):

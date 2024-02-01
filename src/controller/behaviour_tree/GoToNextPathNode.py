@@ -43,10 +43,12 @@ class GoToNextPathNode(Behaviour):
         if graph.is_nodes_position_equals(current_position, self._next_node):
             self._setted_next_node = False
             Knowledge().set_start_action_time(time())
+            Knowledge().set_action("")
             return Status.SUCCESS
         if Knowledge().is_side_free("center") and graph.is_nodes_position_equals(Knowledge().get_neighbor("center"), self._next_node):
             self._setted_next_node = True
             self._controller.perform_action("go_forward")
+            Knowledge().set_action("go_forward")
             Knowledge().set_start_action_time(time())
             self._action = ""
             return Status.SUCCESS
@@ -58,12 +60,14 @@ class GoToNextPathNode(Behaviour):
         elif Knowledge().is_side_free("left") and graph.is_nodes_position_equals(Knowledge().get_neighbor("left"), self._next_node):
             self._setted_next_node = True
             self._controller.perform_action("turn_left")
+            Knowledge().set_action("turn_left")
             Knowledge().set_start_action_time(time())
             self._action = "turn_left"
             return Status.SUCCESS
         elif Knowledge().is_side_free("right") and graph.is_nodes_position_equals(Knowledge().get_neighbor("right"), self._next_node):
             self._setted_next_node = True
             self._controller.perform_action("turn_right")
+            Knowledge().set_action("turn_right")
             Knowledge().set_start_action_time(time())
             self._action = "turn_right"
             return Status.SUCCESS
@@ -72,10 +76,12 @@ class GoToNextPathNode(Behaviour):
             Knowledge().set_start_action_time(time())
             if random() > 0.5:
                 self._controller.perform_action("turn_left")
+                Knowledge().set_action("turn_left")
                 self._action = "turn_left"
                 return Status.SUCCESS
             else:
                 self._controller.perform_action("turn_right")
+                Knowledge().set_action("turn_right")
                 self._action = "turn_right"
                 return Status.SUCCESS
 
