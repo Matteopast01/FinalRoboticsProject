@@ -40,6 +40,8 @@ class ComputeTurn(Behaviour):
             else:
                 Knowledge().set_action("turn_left")
 
+        return Status.SUCCESS
+
     def convert_angle(self, angle):
         if angle < 0:
             return 2 * np.pi + angle
