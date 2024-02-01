@@ -36,7 +36,7 @@ class GoToNextPathNode(Behaviour):
         current_position = Knowledge().get_current_node()
         graph = Knowledge().get_graph()
         if not self._setted_next_node:
-            self._next_node = Knowledge().get_path()[0]
+            self._next_node = Knowledge().get_path().pop(0)
 
         
 
