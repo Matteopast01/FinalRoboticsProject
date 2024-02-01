@@ -44,6 +44,10 @@ class MapGraph:
             if distance < min_distance:
                 min_distance = distance
                 result_node = graph_node
+
+        if result_node is None:
+            raise ValueError("get_approximate_node returns None")
+
         return result_node
 
 

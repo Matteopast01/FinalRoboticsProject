@@ -25,6 +25,7 @@ class Error(Behaviour):
     def update(self):
         self._controller.print_log(f"Error::update {self.name}")
         Knowledge().set_end_game(True)
+        self._controller.perform_action("stop")
         return Status.SUCCESS
 
     def terminate(self, new_status):

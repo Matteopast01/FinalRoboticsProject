@@ -21,6 +21,11 @@ from isrlab_project.controller.behaviour_tree.IsCenterNextNode import IsCenterNe
 from isrlab_project.controller.GoForward.IsCenterNextNode import GoForward
 from isrlab_project.controller.behaviour_tree.ComputeTurn import ComputeTurn
 from isrlab_project.controller.behaviour_tree.Turn import Turn
+from isrlab_project.controller.behaviour_tree.IsThereAComputedPath import IsThereAComputedPath
+from isrlab_project.controller.behaviour_tree.SetNextNode import SetNextNode
+
+
+
 
 
 
@@ -50,6 +55,8 @@ class BehaviourTree:
         goForward = GoForward(name="goForward", controller=controller_handle)
         computeTurn = ComputeTurn(name="computeTurn", controller=controller_handle)
         turn = Turn(name="turn", controller=controller_handle)
+        isThereAComputedPath = IsThereAComputedPath(name="isThereAComputedPath", controller=controller_handle)
+        setNextNode = SetNextNode(name="setNextNode")
 
 
         # level nodes
@@ -65,6 +72,7 @@ class BehaviourTree:
         selector3L4B = Sequence(name="selector3L4B", memory=True)
         sequence3L5B = Sequence(name="sequence3L5B", memory=True)
         sequence3L6B = Sequence(name="sequence3L6B", memory=True)
+        sequence4L3B = Sequence(name="sequence4L3B", memory=True)
 
         root = Selector(name="root", memory=True)
 
@@ -79,7 +87,8 @@ class BehaviourTree:
         sequence2L5B.add_children([amIinNextNode, selector3L4B])
         sequence3L5B.add_children([isCenterNextNode, goForward])
         sequence3L6B.add_children([computeTurn, turn])
-        selector3L4B.add_children([computeNodeAndPath, error3B])
+        sequence4L3B.add_children([isThereAComputedPath, setNextNode])
+        selector3L4B.add_children([sequence4L3B, computeNodeAndPath, error3B])
         selector1L3B.add_children([sequence2L5B, selector2L6B])
         root.add_children([checkEndGame, sequence1L2B, selector1L3B])
 

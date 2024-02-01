@@ -43,6 +43,7 @@ class Controller(Node):
         if self._print_arrived_data:
             self.get_logger().info("free side: " + str(msg))
         dict_side = json.loads(msg.data)
+        Knowledge().reset_delta_neighbors()
         for side, dict_new_node in dict_side.items():
             new_node = (dict_new_node["dx"], dict_new_node["dy"])
             Knowledge().add_delta_pos_neighbors(side, new_node)
@@ -62,6 +63,7 @@ class Controller(Node):
     def perform_action(self, action):
         action_msg = String()
         action_msg.data = action
+        Knowledge().set_action(action)
         Knowledge().set_start_action_time(time())
         self._action_pub.publish(action_msg)
 

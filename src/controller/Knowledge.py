@@ -119,6 +119,9 @@ class Knowledge:
     def reset_neighbors(self):
         self._neighbors = {}
 
+    def reset_delta_neighbors(self):
+        self._delta_pos_neighbors = {}
+
     def add_neighbors(self, side, neighbor):
         self._neighbors[side] = neighbor
 

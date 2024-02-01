@@ -31,6 +31,7 @@ class ComputeNodeAndPath(Behaviour):
             path = graph.path_to_next_node(current_position, node)
             if len(path) > 0:
                 Knowledge().set_path(path)
+                Knowledge().set_next_node(path.pop(0))
                 return Status.SUCCESS
         return Status.FAILURE
 

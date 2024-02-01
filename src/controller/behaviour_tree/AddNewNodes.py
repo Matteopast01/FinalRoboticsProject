@@ -24,9 +24,9 @@ class AddNewNodes(Behaviour):
 
     def update(self):
         self._controller.print_log(f"AddNewNodes::update {self.name}")
+        current_node = Knowledge().get_current_node()
+        current_node = Knowledge().get_graph().get_approximate_node(current_node)
         for side in ["left", "right", "center"]:
-            current_node = Knowledge().get_current_node()
-            current_node = Knowledge().get_graph().get_approximate_node(current_node)
             if Knowledge().is_side_free(side):
                 delta = Knowledge().get_delta_pos_neighbors(side)
                 new_node_x = current_node[0] + delta[0]

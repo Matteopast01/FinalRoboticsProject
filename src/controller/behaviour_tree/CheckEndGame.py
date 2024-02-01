@@ -25,6 +25,7 @@ class CheckEndGame(Behaviour):
     def update(self):
         self._controller.print_log(f"CheckEndGame::update {self.name}")
         if Knowledge().get_end_game():
+            self._controller.perform_action("stop")
             return Status.SUCCESS
         else:
             return Status.FAILURE
