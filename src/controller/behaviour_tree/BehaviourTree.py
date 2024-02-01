@@ -18,6 +18,13 @@ from isrlab_project.controller.behaviour_tree.CheckEndGame import CheckEndGame
 from isrlab_project.controller.behaviour_tree.IsThereAComputedPath import IsThereAComputedPath
 from isrlab_project.controller.behaviour_tree.ResetPriorityQueue import ResetPriorityQueue
 from isrlab_project.controller.behaviour_tree.SetCurrentPosition import SetCurrentPosition
+from isrlab_project.controller.behaviour_tree.AmIinNextNode import AmIinNextNode
+from isrlab_project.controller.behaviour_tree.IsCenterNextNode import IsCenterNextNode
+from isrlab_project.controller.GoForward.IsCenterNextNode import GoForward
+from isrlab_project.controller.behaviour_tree.ComputeTurn import ComputeTurn
+from isrlab_project.controller.behaviour_tree.Turn import Turn
+
+
 
 
 class BehaviourTree:
@@ -28,20 +35,24 @@ class BehaviourTree:
 
     def _create_bt(self, controller_handle):
         # leaves
-        checkEndGame = CheckEndGame(name="CheckEndGame", controller = controller_handle)
-        setCurrentPosition = SetCurrentPosition(name="SetCurrentPosition", controller = controller_handle)
-        addNewNodes = AddNewNodes(name="AddNewNodes", controller = controller_handle)
-        checkPositionalGoal = CheckPositionGoal(name="CheckPositionalGoal", controller = controller_handle)
-        error2B = Error(name="Error2B", controller = controller_handle)
-        findQrCode = FindQrCode(name="FindQrCode", controller = controller_handle)
-        checkFinalGoal = CheckFinalGoal(name="checkFinalGoal", controller = controller_handle)
-        setEndGame = SetEndGame(name="SetEndGame", controller = controller_handle)
-        setNewGoal = SetNewGoal(name="SetNewGoal", controller = controller_handle)
-        resetPriorityQueue = ResetPriorityQueue(name="ResetPriorityQueue", controller = controller_handle)
-        isThereAComputedPath = IsThereAComputedPath(name="IsThereAComputedPath",controller = controller_handle)
-        computeNodeAndPath = ComputeNodeAndPath(name="ComputeNodeAndPath", controller = controller_handle)
-        error3B = Error(name="error3B", controller = controller_handle)
-        goToNextPathNode = GoToNextPathNode(name="GoToNextPathNode", controller = controller_handle)
+        checkEndGame = CheckEndGame(name="CheckEndGame", controller=controller_handle)
+        setCurrentPosition = SetCurrentPosition(name="SetCurrentPosition", controller=controller_handle)
+        addNewNodes = AddNewNodes(name="AddNewNodes", controller=controller_handle)
+        checkPositionalGoal = CheckPositionGoal(name="CheckPositionalGoal", controller=controller_handle)
+        error2B = Error(name="Error2B", controller=controller_handle)
+        findQrCode = FindQrCode(name="FindQrCode", controller=controller_handle)
+        checkFinalGoal = CheckFinalGoal(name="checkFinalGoal", controller=controller_handle)
+        setEndGame = SetEndGame(name="SetEndGame", controller=controller_handle)
+        setNewGoal = SetNewGoal(name="SetNewGoal", controller=controller_handle)
+        resetPriorityQueue = ResetPriorityQueue(name="ResetPriorityQueue", controller=controller_handle)
+        computeNodeAndPath = ComputeNodeAndPath(name="ComputeNodeAndPath", controller=controller_handle)
+        error3B = Error(name="error3B", controller=controller_handle)
+        amIinNextNode = AmIinNextNode(name="AmIinNextNode", controller=controller_handle)
+        isCenterNextNode = IsCenterNextNode(name="isCenterNextNode", controller=controller_handle)
+        goForward = GoForward(name="goForward", controller=controller_handle)
+        computeTurn = ComputeTurn(name="computeTurn", controller=controller_handle)
+        turn = Turn(name="turn", controller=controller_handle)
+
 
         # level nodes
         sequence5L1B = Sequence(name="sequence5L1B", memory=True)
@@ -50,24 +61,29 @@ class BehaviourTree:
         sequence3L1B = Sequence(name="sequence3L1B", memory=True)
         selector2L4B = Selector(name="selector2L4B", memory=True)
         sequence1L2B = Sequence(name="sequence1L2B", memory=True)
-        sequence1L3B = Sequence(name="sequence1L3B", memory=True)
-        selector2L1B = Selector(name="selector2L1B", memory=True)
-        sequence2L2B = Sequence(name="sequence2L2B", memory=True)
+        selector1L3B = Sequence(name="selector1L3B", memory=True)
+        selector2L6B = Selector(name="selector2L6B", memory=True)
+        sequence2L5B = Sequence(name="sequence2L5B", memory=True)
+        selector3L4B = Sequence(name="selector3L4B", memory=True)
+        sequence3L5B = Sequence(name="sequence3L5B", memory=True)
+        sequence3L6B = Sequence(name="sequence3L6B", memory=True)
+
         root = Selector(name="root", memory=True)
 
-
         # add children
-        sequence5L1B.add_children([checkFinalGoal,setEndGame])
-        sequence5L2B.add_children([setNewGoal,resetPriorityQueue])
+        sequence5L1B.add_children([checkFinalGoal, setEndGame])
+        sequence5L2B.add_children([setNewGoal, resetPriorityQueue])
         selector4L2B.add_children([sequence5L1B, sequence5L2B])
         sequence3L1B.add_children([findQrCode, selector4L2B])
         selector2L4B.add_children([sequence3L1B, error2B])
-        sequence1L2B.add_children([setCurrentPosition, addNewNodes,checkPositionalGoal,selector2L4B])
-        selector2L1B.add_children([isThereAComputedPath,computeNodeAndPath,error3B])
-        sequence2L2B.add_children([goToNextPathNode])
-        sequence1L3B.add_children([selector2L1B,sequence2L2B])
-        root.add_children([checkEndGame,sequence1L2B,sequence1L3B])
-
+        sequence1L2B.add_children([setCurrentPosition, addNewNodes, checkPositionalGoal, selector2L4B])
+        selector2L6B.add_children([sequence3L5B, sequence3L6B])
+        sequence2L5B.add_children([amIinNextNode, selector3L4B])
+        sequence3L5B.add_children([isCenterNextNode, goForward])
+        sequence3L6B.add_children([computeTurn, turn])
+        selector3L4B.add_children([computeNodeAndPath, error3B])
+        selector1L3B.add_children([sequence2L5B, selector2L6B])
+        root.add_children([checkEndGame, sequence1L2B, selector1L3B])
 
         self._root = root
 
