@@ -41,7 +41,7 @@ class MapGraph:
         result_node = None
         for graph_node in self._graph.keys():
             distance = self._compute_ptp_distance(node, graph_node)
-            if distance < min_distance and distance < self._node_distance_threshold:
+            if distance < min_distance:
                 min_distance = distance
                 result_node = graph_node
         return result_node
