@@ -9,21 +9,21 @@ from py_trees import logging as log_tree
 from isrlab_project.controller.Knowledge import Knowledge
 
 
-class AmiInNextNode(Behaviour):
+class AmIInNextNode(Behaviour):
     _controller: Any
 
     def __init__(self, name, controller):
-        super(AmiInNextNode, self).__init__(name)
+        super(AmIInNextNode, self).__init__(name)
         self._controller = controller
 
     def setup(self):
-        self._controller.print_log(f"AmiInNextNode::setup {self.name}")
+        self._controller.print_log(f"AmIInNextNode::setup {self.name}")
 
     def initialise(self):
-        self._controller.print_log(f"AmiInNextNode::initialise {self.name}")
+        self._controller.print_log(f"AmIInNextNode::initialise {self.name}")
 
     def update(self):
-        self._controller.print_log(f"AmiInNextNode::update {self.name}")
+        self._controller.print_log(f"AmIInNextNode::update {self.name}")
         current_pos = Knowledge().get_current_node()
         next_node = Knowledge().get_next_node()
         graph = Knowledge().get_graph()
@@ -33,4 +33,4 @@ class AmiInNextNode(Behaviour):
             return Status.FAILURE
 
     def terminate(self, new_status):
-        self._controller.print_log(f"AmiInNextNode::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"AmIInNextNode::terminate {self.name} to {new_status}")

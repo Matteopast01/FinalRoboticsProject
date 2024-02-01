@@ -16,9 +16,9 @@ from isrlab_project.controller.behaviour_tree.SetEndGame import SetEndGame
 from isrlab_project.controller.behaviour_tree.CheckEndGame import CheckEndGame
 from isrlab_project.controller.behaviour_tree.ResetPriorityQueue import ResetPriorityQueue
 from isrlab_project.controller.behaviour_tree.SetCurrentPosition import SetCurrentPosition
-from isrlab_project.controller.behaviour_tree.AmIinNextNode import AmIinNextNode
+from isrlab_project.controller.behaviour_tree.AmIInNextNode import AmIInNextNode
 from isrlab_project.controller.behaviour_tree.IsCenterNextNode import IsCenterNextNode
-from isrlab_project.controller.GoForward.IsCenterNextNode import GoForward
+from isrlab_project.controller.behaviour_tree.GoForward import GoForward
 from isrlab_project.controller.behaviour_tree.ComputeTurn import ComputeTurn
 from isrlab_project.controller.behaviour_tree.Turn import Turn
 from isrlab_project.controller.behaviour_tree.IsThereAComputedPath import IsThereAComputedPath
@@ -50,7 +50,7 @@ class BehaviourTree:
         resetPriorityQueue = ResetPriorityQueue(name="ResetPriorityQueue", controller=controller_handle)
         computeNodeAndPath = ComputeNodeAndPath(name="ComputeNodeAndPath", controller=controller_handle)
         error3B = Error(name="error3B", controller=controller_handle)
-        amIinNextNode = AmIinNextNode(name="AmIinNextNode", controller=controller_handle)
+        amIInNextNode = AmIInNextNode(name="AmIinNextNode", controller=controller_handle)
         isCenterNextNode = IsCenterNextNode(name="isCenterNextNode", controller=controller_handle)
         goForward = GoForward(name="goForward", controller=controller_handle)
         computeTurn = ComputeTurn(name="computeTurn", controller=controller_handle)
@@ -84,7 +84,7 @@ class BehaviourTree:
         selector2L4B.add_children([sequence3L1B, error2B])
         sequence1L2B.add_children([setCurrentPosition, addNewNodes, checkPositionalGoal, selector2L4B])
         selector2L6B.add_children([sequence3L5B, sequence3L6B])
-        sequence2L5B.add_children([amIinNextNode, selector3L4B])
+        sequence2L5B.add_children([amIInNextNode, selector3L4B])
         sequence3L5B.add_children([isCenterNextNode, goForward])
         sequence3L6B.add_children([computeTurn, turn])
         sequence4L3B.add_children([isThereAComputedPath, setNextNode])
