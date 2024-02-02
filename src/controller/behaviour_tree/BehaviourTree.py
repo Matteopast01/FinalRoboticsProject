@@ -56,7 +56,7 @@ class BehaviourTree:
         computeTurn = ComputeTurn(name="computeTurn", controller=controller_handle)
         turn = Turn(name="turn", controller=controller_handle)
         isThereAComputedPath = IsThereAComputedPath(name="isThereAComputedPath", controller=controller_handle)
-        setNextNode = SetNextNode(name="setNextNode")
+        setNextNode = SetNextNode(name="setNextNode", controller=controller_handle)
 
 
         # level nodes
@@ -66,10 +66,10 @@ class BehaviourTree:
         sequence3L1B = Sequence(name="sequence3L1B", memory=True)
         selector2L4B = Selector(name="selector2L4B", memory=True)
         sequence1L2B = Sequence(name="sequence1L2B", memory=True)
-        selector1L3B = Sequence(name="selector1L3B", memory=True)
+        selector1L3B = Selector(name="selector1L3B", memory=True)
         selector2L6B = Selector(name="selector2L6B", memory=True)
         sequence2L5B = Sequence(name="sequence2L5B", memory=True)
-        selector3L4B = Sequence(name="selector3L4B", memory=True)
+        selector3L4B = Selector(name="selector3L4B", memory=True)
         sequence3L5B = Sequence(name="sequence3L5B", memory=True)
         sequence3L6B = Sequence(name="sequence3L6B", memory=True)
         sequence4L3B = Sequence(name="sequence4L3B", memory=True)

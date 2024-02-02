@@ -36,6 +36,12 @@ class MapGraph:
         distance = np.sqrt((node1[0] - node2[0]) ** 2 + (node1[1] - node2[1]) ** 2)
         return distance < self._node_distance_threshold
 
+    def is_just_visited(self, node):
+        for v in self._graph.keys():
+            if self.is_nodes_position_equals(node, v):
+                return True
+        return False
+
     def get_approximate_node(self, node):
         min_distance = np.inf
         result_node = None

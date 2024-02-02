@@ -42,8 +42,10 @@ class Perception(Node):
             arrived_msg.data = arrived
             self._arrived_pub.publish(arrived_msg)
 
+
+
     def orientation_callback(self, msg: Float32):
-        self.get_logger().info("orientation: " + str(msg))
+        self.get_logger().info("orientation: "+str(msg))
         if self._computation is None:
             self._computation = Computation(msg.data)
         else:
@@ -55,21 +57,19 @@ class Perception(Node):
 
     def proximity_callback(self, msg: String):
         if self._computation is not None:
-            self.get_logger().info("proximity: " + str(msg))
+            self.get_logger().info("proximity: "+str(msg))
             data_dict = json.loads(msg.data)
             controller_dict = {}
             for side, value in data_dict.items():
                 is_side_free = self._computation.is_side_free(value)
                 if is_side_free:
-                    self.print_log(side)
                     data = self._computation.compute_position_node(side)
                     controller_dict[side] = {"dx": data[0], "dy": data[1]}
             pub_controller_msg = String()
             pub_controller_msg.data = json.dumps(controller_dict)
             self._controller_pub.publish(pub_controller_msg)
 
-    def print_log(self, text):
-        self.get_logger().info("python print : " + str(text))
+
 
 
 def main(args=None):

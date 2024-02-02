@@ -24,8 +24,8 @@ class ComputeNodeAndPath(Behaviour):
 
     def update(self):
         self._controller.print_log(f"ComputeNodeAndPath::update {self.name}")
-        current_position = Knowledge().get_current_node()
         graph = Knowledge().get_graph()
+        current_position = graph.get_approximate_node(Knowledge().get_current_node())
         while not graph.is_priority_queue_empty():
             node = graph.get_next_node()
             path = graph.path_to_next_node(current_position, node)

@@ -25,20 +25,24 @@ class ComputeTurn(Behaviour):
     def update(self):
         self._controller.print_log(f"ComputeTurn::update {self.name}")
 
+        current_node = Knowledge().get_current_node()
         next_node = Knowledge().get_next_node()
-        next_orientation = self.convert_angle(np.arctan2(next_node[1], next_node[0]))
+        next_orientation = self.convert_angle(np.arctan2(next_node[1] - current_node[1], next_node[0] - current_node[0]))
         current_orientation = self.convert_angle(Knowledge().get_orientation())
         angle_to_perform = next_orientation - current_orientation
+        self._controller.print_log(f"ComputeTurn:: angle current {current_orientation} next {next_orientation}")
         if angle_to_perform > 0:
             if np.abs(angle_to_perform) < np.pi:
                 Knowledge().set_action("turn_left")
             else:
                 Knowledge().set_action("turn_right")
-        else:
+        elif angle_to_perform <= 0:
             if np.abs(angle_to_perform) < np.pi:
                 Knowledge().set_action("turn_right")
             else:
                 Knowledge().set_action("turn_left")
+        else:
+            Knowledge().set_action("go_forward")
 
         return Status.SUCCESS
 

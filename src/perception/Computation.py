@@ -30,8 +30,9 @@ class Computation:
 
     def is_side_free(self, proximity_val):
         threshold = self._config.read_data("FREE_SIDE_THRESHOLD")
-        if proximity_val == 0 or proximity_val < threshold:
+        if proximity_val == 0 or proximity_val > threshold:
             return True
+        return False
 
     def compute_position_node(self, free_side):
         space = self._config.read_data("SPACE")
@@ -47,3 +48,4 @@ class Computation:
         else:
             dict_result = {"arrived": False, "pos": [-1, -1], "text": ""}
             return json.dumps(dict_result)
+

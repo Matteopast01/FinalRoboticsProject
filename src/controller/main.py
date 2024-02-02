@@ -16,7 +16,7 @@ MOTION_WAIT = 0.5
 
 
 class Controller(Node):
-    _print_enabled = ["SetCurrentPosition"]
+    _print_enabled = [ "AddNewNodes"]
     _print_arrived_data = False
     _new_node_sub: Any
     _free_side_sub: Any
@@ -44,6 +44,7 @@ class Controller(Node):
             self.get_logger().info("free side: " + str(msg))
         dict_side = json.loads(msg.data)
         Knowledge().reset_delta_neighbors()
+        Knowledge().reset_neighbors()
         for side, dict_new_node in dict_side.items():
             new_node = (dict_new_node["dx"], dict_new_node["dy"])
             Knowledge().add_delta_pos_neighbors(side, new_node)
@@ -70,7 +71,7 @@ class Controller(Node):
     def print_log(self, text):
         splitted_text = text.split("::")
         node_name = splitted_text[0]
-        if node_name in self._print_enabled:
+        if len(self._print_enabled)==0 or node_name in self._print_enabled:
             self.get_logger().info("python print : " + str(text))
 
 

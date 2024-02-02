@@ -132,7 +132,7 @@ class Knowledge:
         return side in self._delta_pos_neighbors
 
     def read_config_var(self, var_name):
-        self._configuration.read_data(var_name)
+        return self._configuration.read_data(var_name)
 
     def decode_text_qr(self, text):
         return text
