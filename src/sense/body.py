@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! # !/usr/bin/env python3
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 from typing import Any, List
 import numpy as np
@@ -72,6 +72,8 @@ class SimulatedPioneerBody:
                 values = {}
                 for sensor, handler in self._my_sensors_values.items():
                     _, dis, _, _, _ = self._sim.readProximitySensor(handler)
+                    if dis < 0.05:
+                        dis = 0
                     values[sensor] = dis
                 return values
             else:

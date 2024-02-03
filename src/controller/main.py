@@ -16,8 +16,8 @@ MOTION_WAIT = 0.5
 
 
 class Controller(Node):
-    _print_enabled = [ "AddNewNodes"]
-    _print_arrived_data = False
+    _print_enabled = []
+    _print_arrived_data = True
     _new_node_sub: Any
     _free_side_sub: Any
     _arrived_sub: Any
