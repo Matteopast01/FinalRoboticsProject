@@ -46,8 +46,8 @@ class Controller(Node):
         Knowledge().reset_delta_neighbors()
         Knowledge().reset_neighbors()
         for side, dict_new_node in dict_side.items():
-            new_node = (dict_new_node["dx"], dict_new_node["dy"])
-            Knowledge().add_delta_pos_neighbors(side, new_node)
+            new_delta_node = (dict_new_node["dx"], dict_new_node["dy"])
+            Knowledge().add_delta_pos_neighbors(side, new_delta_node)
 
         self._behavior_tree.tick()
 

@@ -32,11 +32,13 @@ class AddNewNodes(Behaviour):
                 new_node_x = current_node[0] + delta[0]
                 new_node_y = current_node[1] + delta[1]
                 new_node = (new_node_x, new_node_y)
-                
-                self._controller.print_log(f"AddNewNodes::delta {delta} new_node {new_node} current {current_node}")
-                Knowledge().add_neighbors(side, new_node)
+
                 if not Knowledge().get_graph().is_just_visited(new_node):
                     Knowledge().get_graph().add_node(current_node, new_node)
+                else:
+                    new_node = Knowledge().get_graph().get_approximate_node(new_node)
+                Knowledge().add_neighbors(side, new_node)
+
         return Status.SUCCESS
 
     def terminate(self, new_status):

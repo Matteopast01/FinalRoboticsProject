@@ -24,7 +24,7 @@ class MapGraph:
     def add_node(self, node_from: tuple, new_node: tuple):
         self._graph[node_from].append(new_node)
         self._graph[new_node] = [node_from]
-        self._visited.add(new_node)
+        # self._visited.add(new_node)
         self._queue.put((self._compute_ptp_distance(new_node), new_node))
 
     def _compute_ptp_distance(self, node, node_from=None):
@@ -55,7 +55,6 @@ class MapGraph:
             raise ValueError("get_approximate_node returns None")
 
         return result_node
-
 
     def is_node_new(self, node_from: tuple, new_node: tuple):
         distance = np.sqrt((new_node[0] - node_from[0]) ** 2 + (new_node[1] - node_from[1]) ** 2)
