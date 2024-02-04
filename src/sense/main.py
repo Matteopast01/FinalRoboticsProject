@@ -26,9 +26,9 @@ class MyNode(Node):
         self._proximity_sensors_publisher = self.create_publisher(String, "proximity_sensors", 10)
         self._orientation_sensor_publisher = self.create_publisher(Float32, "orientation_sensor", 10)
         self._img_sensor_publisher = self.create_publisher(String, "camera_sensor", 10)
-        self.timer_proximity = self.create_timer(1, self.my_pub_proximity_sensors)
+        self.timer_proximity = self.create_timer(0.1, self.my_pub_proximity_sensors)
         self.timer_orientation = self.create_timer(0.1, self.my_pub_orientation_sensor)
-        self.timer_camera = self.create_timer(0.2, self.my_pub_camera_sensor)
+        self.timer_camera = self.create_timer(0.1, self.my_pub_camera_sensor)
 
     def pub_callback(self):
         self.my_pub_proximity_sensors()

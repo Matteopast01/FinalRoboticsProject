@@ -26,6 +26,7 @@ class AddNewNodes(Behaviour):
         self._controller.print_log(f"AddNewNodes::update {self.name}")
         current_node = Knowledge().get_current_node()
         current_node = Knowledge().get_graph().get_approximate_node(current_node)
+        action = Knowledge().get_action()
         for side in ["left", "right", "center"]:
             if Knowledge().is_side_free(side):
                 delta = Knowledge().get_delta_pos_neighbors(side)

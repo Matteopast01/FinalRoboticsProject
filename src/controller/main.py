@@ -17,7 +17,7 @@ MOTION_WAIT = 0.5
 
 class Controller(Node):
     _print_enabled = []
-    _print_arrived_data = True
+    _print_arrived_data = False
     _new_node_sub: Any
     _free_side_sub: Any
     _arrived_sub: Any
@@ -52,12 +52,12 @@ class Controller(Node):
         self._behavior_tree.tick()
 
     def arrived_callback(self, msg: String):
-        if self._print_arrived_data:
+        if self._print_arrived_data and False:
             self.get_logger().info("arrived: " + str(msg))
         Knowledge().set_arrived_data_json(msg.data)
 
     def orientation_callback(self, msg: Float32):
-        if self._print_arrived_data:
+        if self._print_arrived_data and False:
             self.get_logger().info("orientation: " + str(msg))
         Knowledge().set_orientation(msg.data)
 

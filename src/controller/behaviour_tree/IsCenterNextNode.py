@@ -26,9 +26,8 @@ class IsCenterNextNode(Behaviour):
         self._controller.print_log(f"IsCenterNextNode::update {self.name}")
         graph = Knowledge().get_graph()
         next_node = Knowledge().get_next_node()
-        if Knowledge().is_side_free("center"):
-            center_node = Knowledge().get_neighbor("center")
-            self._controller.print_log(f"IsCenterNextNode::center {center_node}, next_node {next_node}")
+        current_node = Knowledge().get_current_node()
+        self._controller.print_log(f"IsCenterNextNode:: next_node {next_node}, current_node {current_node}")
         if Knowledge().is_side_free("center") and graph.is_nodes_position_equals(Knowledge().get_neighbor("center"), next_node):
             return Status.SUCCESS
         else:

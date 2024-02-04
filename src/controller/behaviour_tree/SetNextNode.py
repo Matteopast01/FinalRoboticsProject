@@ -24,7 +24,7 @@ class SetNextNode(Behaviour):
 
     def update(self):
         self._controller.print_log(f"SetNextNode::update {self.name}")
-        next_node = Knowledge().get_path().pop()
+        next_node = Knowledge().get_path().pop(0)
         Knowledge().set_next_node(next_node)
         return Status.SUCCESS
 

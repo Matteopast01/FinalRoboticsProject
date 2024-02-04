@@ -28,7 +28,7 @@ class SimulatedPioneerBody:
         self._sim = self._cSim_client.getObject('sim')
         self._my_pioneer = self._sim.getObject("./PioneerP3DX")
         self._my_sensors_values = {
-            "left": self._sim.getObject("./ultrasonicSensor[0]"),
+            "left": self._sim.getObject("./ultrasonicSensor[1]"),
             "center": self._sim.getObject("./ultrasonicSensor[4]"),
             "right": self._sim.getObject("./ultrasonicSensor[7]")
         }
@@ -72,7 +72,7 @@ class SimulatedPioneerBody:
                 values = {}
                 for sensor, handler in self._my_sensors_values.items():
                     _, dis, _, _, _ = self._sim.readProximitySensor(handler)
-                    if dis < 0.05:
+                    if dis < 0.07:
                         dis = 0
                     values[sensor] = dis
                 return values
