@@ -1,31 +1,47 @@
 from isrlab_project.ReadConfig import ReadConfig
+from isrlab_project.controller.PriorityQueue import PriorityQueue
 import numpy as np
-from queue import PriorityQueue
 
 
 class MapGraph:
     _graph: dict
     _visited: set
     _queue: PriorityQueue
-    _radius: float
     _node_distance_threshold: float
     _position_goal: tuple
+    _busy_nodes: list
+    _k_goal: float
 
     def __init__(self, start_node, position_goal):
-        self._radius = ReadConfig().read_data("SPACE") / 2
         self._node_distance_threshold = ReadConfig().read_data("NODE_DISTANCE_THRESHOLD")
+        self._k_goal = ReadConfig().read_data("PRIORITY_WEIGHT")
         self._graph = {start_node: []}
         self._visited = set()
         self._visited.add(start_node)
         self._position_goal = position_goal
         self._queue = PriorityQueue()
         self._queue.put((self._compute_ptp_distance(start_node), start_node))
+        self._busy_nodes = []
 
     def add_node(self, node_from: tuple, new_node: tuple):
         self._graph[node_from].append(new_node)
         self._graph[new_node] = [node_from]
-        # self._visited.add(new_node)
-        self._queue.put((self._compute_ptp_distance(new_node), new_node))
+        self._queue.put((self._compute_priority(new_node, self._k_goal), new_node))
+
+    def add_busy_node(self, busy_node):
+        if self.is_node_new(busy_node, self._busy_nodes):
+            self._busy_nodes.append(busy_node)
+            for priority, item in self._queue:
+                self._queue.update_priority(self._compute_priority(item, self._k_goal), item)
+
+    def _compute_priority(self, node, k_goal=0.5):
+        goal_ptp_dis = self._compute_ptp_distance(node)
+        busy_nodes_ptp_dis = [self._compute_ptp_distance(node, busy_node) for busy_node in self._busy_nodes]
+        if len(busy_nodes_ptp_dis) == 0:
+            avg_busy_nodes_distance = 0
+        else:
+            avg_busy_nodes_distance = np.average(self._busy_nodes)
+        return k_goal * goal_ptp_dis - (1 - k_goal) * avg_busy_nodes_distance
 
     def _compute_ptp_distance(self, node, node_from=None):
         if node_from is None:
@@ -36,11 +52,14 @@ class MapGraph:
         distance = np.sqrt((node1[0] - node2[0]) ** 2 + (node1[1] - node2[1]) ** 2)
         return distance < self._node_distance_threshold
 
-    def is_just_visited(self, node):
-        for v in self._graph.keys():
+    def is_node_new(self, node, nodes_list):
+        for v in nodes_list:
             if self.is_nodes_position_equals(node, v):
-                return True
-        return False
+                return False
+        return True
+
+    def is_just_visited(self, node):
+        return not self.is_node_new(node, self._graph.keys())
 
     def get_approximate_node(self, node):
         min_distance = np.inf
@@ -56,15 +75,11 @@ class MapGraph:
 
         return result_node
 
-    def is_node_new(self, node_from: tuple, new_node: tuple):
-        distance = np.sqrt((new_node[0] - node_from[0]) ** 2 + (new_node[1] - node_from[1]) ** 2)
-        return distance > self._radius * 2
-
     def reset_priority_queue(self):
         self._queue = PriorityQueue()
         for key in self._graph.keys():
             for node in self._graph[key]:
-                self._queue.put((self._compute_ptp_distance(node), node))
+                self._queue.put((self._compute_priority(node, self._k_goal), node))
 
     def get_next_node(self):
         if not self._queue.empty():
@@ -94,6 +109,5 @@ class MapGraph:
                         while node_u in tree:
                             path.insert(0, node_u)
                             node_u = tree[node_u]
-                        # path.insert(0, node_u)  # forse va tolto
                         return path
         return []

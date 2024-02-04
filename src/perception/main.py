@@ -60,9 +60,8 @@ class Perception(Node):
             controller_dict = {}
             for side, value in data_dict.items():
                 is_side_free = self._computation.is_side_free(value)
-                if is_side_free:
-                    data = self._computation.compute_position_node(side)
-                    controller_dict[side] = {"dx": data[0], "dy": data[1]}
+                data = self._computation.compute_position_node(side)
+                controller_dict[side] = {"dx": data[0], "dy": data[1], "free": is_side_free}
             pub_controller_msg = String()
             pub_controller_msg.data = json.dumps(controller_dict)
             self._controller_pub.publish(pub_controller_msg)

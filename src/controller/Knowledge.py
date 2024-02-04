@@ -22,6 +22,7 @@ class Knowledge:
     _next_node: tuple
     _path: list
     _action: str
+    _delta_busy_nodes: list
 
     def __new__(cls):
         # TODO initialize attributes in the constructor
@@ -80,6 +81,9 @@ class Knowledge:
     def get_neighbor(self, side):
         return self._neighbors[side]
 
+    def get_delta_busy_nodes(self):
+        return self._delta_busy_nodes
+
     def get_action(self):
         return self._action
 
@@ -122,11 +126,20 @@ class Knowledge:
     def reset_delta_neighbors(self):
         self._delta_pos_neighbors = {}
 
+    def reset_delta_busy_nodes(self):
+        self._delta_busy_nodes = []
+
     def add_neighbors(self, side, neighbor):
         self._neighbors[side] = neighbor
 
     def add_delta_pos_neighbors(self, side, neighbor):
         self._delta_pos_neighbors[side] = neighbor
+
+    def add_busy_node(self, busy_node):
+        self._map_graph.add_busy_node(busy_node)
+
+    def add_delta_busy_nodes(self, busy_node):
+        self._delta_busy_nodes.append(busy_node)
 
     def is_side_free(self, side):
         return side in self._delta_pos_neighbors

@@ -23,6 +23,7 @@ from isrlab_project.controller.behaviour_tree.ComputeTurn import ComputeTurn
 from isrlab_project.controller.behaviour_tree.Turn import Turn
 from isrlab_project.controller.behaviour_tree.IsThereAComputedPath import IsThereAComputedPath
 from isrlab_project.controller.behaviour_tree.SetNextNode import SetNextNode
+from isrlab_project.controller.behaviour_tree.AddBusyNodes import AddBusyNodes
 
 
 
@@ -57,6 +58,7 @@ class BehaviourTree:
         turn = Turn(name="turn", controller=controller_handle)
         isThereAComputedPath = IsThereAComputedPath(name="isThereAComputedPath", controller=controller_handle)
         setNextNode = SetNextNode(name="setNextNode", controller=controller_handle)
+        addBusyNodes = AddBusyNodes(name="addBusyNodes", controller=controller_handle)
 
 
         # level nodes
@@ -64,11 +66,11 @@ class BehaviourTree:
         sequence5L2B = Sequence(name="sequence5L1B", memory=True)
         selector4L2B = Selector(name="selector4L2B", memory=True)
         sequence3L1B = Sequence(name="sequence3L1B", memory=True)
-        selector2L4B = Selector(name="selector2L4B", memory=True)
+        selector2L5B = Selector(name="selector2L5B", memory=True)
         sequence1L2B = Sequence(name="sequence1L2B", memory=True)
         selector1L3B = Selector(name="selector1L3B", memory=True)
-        selector2L6B = Selector(name="selector2L6B", memory=True)
-        sequence2L5B = Sequence(name="sequence2L5B", memory=True)
+        selector2L7B = Selector(name="selector2L7B", memory=True)
+        sequence2L6B = Sequence(name="sequence2L6B", memory=True)
         selector3L4B = Selector(name="selector3L4B", memory=True)
         sequence3L5B = Sequence(name="sequence3L5B", memory=True)
         sequence3L6B = Sequence(name="sequence3L6B", memory=True)
@@ -81,15 +83,15 @@ class BehaviourTree:
         sequence5L2B.add_children([setNewGoal, resetPriorityQueue])
         selector4L2B.add_children([sequence5L1B, sequence5L2B])
         sequence3L1B.add_children([findQrCode, selector4L2B])
-        selector2L4B.add_children([sequence3L1B, error2B])
-        sequence1L2B.add_children([setCurrentPosition, addNewNodes, checkPositionalGoal, selector2L4B])
-        selector2L6B.add_children([sequence3L5B, sequence3L6B])
-        sequence2L5B.add_children([amIInNextNode, selector3L4B])
+        selector2L5B.add_children([sequence3L1B, error2B])
+        sequence1L2B.add_children([setCurrentPosition, addBusyNodes, addNewNodes, checkPositionalGoal, selector2L5B])
+        selector2L7B.add_children([sequence3L5B, sequence3L6B])
+        sequence2L6B.add_children([amIInNextNode, selector3L4B])
         sequence3L5B.add_children([isCenterNextNode, goForward])
         sequence3L6B.add_children([computeTurn, turn])
         sequence4L3B.add_children([isThereAComputedPath, setNextNode])
         selector3L4B.add_children([sequence4L3B, computeNodeAndPath, error3B])
-        selector1L3B.add_children([sequence2L5B, selector2L6B])
+        selector1L3B.add_children([sequence2L6B, selector2L7B])
         root.add_children([checkEndGame, sequence1L2B, selector1L3B])
 
         self._root = root

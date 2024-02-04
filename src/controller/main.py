@@ -43,11 +43,17 @@ class Controller(Node):
         if self._print_arrived_data:
             self.get_logger().info("free side: " + str(msg))
         dict_side = json.loads(msg.data)
+        # reset nodes list
         Knowledge().reset_delta_neighbors()
         Knowledge().reset_neighbors()
+        Knowledge().reset_delta_busy_nodes()
+        # split nodes between neighbors and busy_nodes
         for side, dict_new_node in dict_side.items():
             new_delta_node = (dict_new_node["dx"], dict_new_node["dy"])
-            Knowledge().add_delta_pos_neighbors(side, new_delta_node)
+            if dict_new_node["free"]:
+                Knowledge().add_delta_pos_neighbors(side, new_delta_node)
+            else:
+                Knowledge().add_delta_busy_nodes(new_delta_node)
 
         self._behavior_tree.tick()
 

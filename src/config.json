@@ -1,5 +1,6 @@
 {
   "MOTION_WAIT": 1,
+  "PRIORITY_WEIGHT":  0.5,
   "SPEED": 0.4,
   "SPACE": 0.4,
   "FREE_SIDE_THRESHOLD": 1,
