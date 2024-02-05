@@ -8,6 +8,7 @@ class MapGraph:
     _visited: set
     _queue: PriorityQueue
     _node_distance_threshold: float
+    _node_distance_threshold_small: float
     _position_goal: tuple
     _busy_nodes: list
     _k_goal: float
@@ -15,6 +16,7 @@ class MapGraph:
     def __init__(self, start_node, position_goal):
         self._node_distance_threshold = ReadConfig().read_data("NODE_DISTANCE_THRESHOLD")
         self._k_goal = ReadConfig().read_data("PRIORITY_WEIGHT")
+        self._node_distance_threshold_small = ReadConfig().read_data("AM_I_IN_NEXT_NODE_THRESHOLD")
         self._graph = {start_node: []}
         self._visited = set()
         self._visited.add(start_node)
@@ -48,8 +50,10 @@ class MapGraph:
             node_from = self._position_goal
         return np.sqrt((node_from[0] - node[0]) ** 2 + (node_from[1] - node[1]) ** 2)
 
-    def is_nodes_position_equals(self, node1, node2):
+    def is_nodes_position_equals(self, node1, node2, small = False):
         distance = np.sqrt((node1[0] - node2[0]) ** 2 + (node1[1] - node2[1]) ** 2)
+        if small:
+            return distance < self._node_distance_threshold_small
         return distance < self._node_distance_threshold
 
     def is_node_new(self, node, nodes_list):
@@ -80,6 +84,11 @@ class MapGraph:
         for key in self._graph.keys():
             for node in self._graph[key]:
                 self._queue.put((self._compute_priority(node, self._k_goal), node))
+
+    def remove_node(self, node):
+        for n in self._graph[node]:
+            self._graph[n].remove(node)
+        del self._graph[node]
 
     def get_next_node(self):
         if not self._queue.empty():

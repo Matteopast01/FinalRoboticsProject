@@ -28,9 +28,9 @@ class SimulatedPioneerBody:
         self._sim = self._cSim_client.getObject('sim')
         self._my_pioneer = self._sim.getObject("./PioneerP3DX")
         self._my_sensors_values = {
-            "left": self._sim.getObject("./ultrasonicSensor[1]"),
-            "center": self._sim.getObject("./ultrasonicSensor[4]"),
-            "right": self._sim.getObject("./ultrasonicSensor[7]")
+            "left": self._sim.getObject("./ultrasonicSensor[0]"),
+            "center": self._sim.getObject("./ultrasonicSensor[3]"),
+            "right": self._sim.getObject("./ultrasonicSensor[6]")
         }
         self._my_vision_sensor = self._sim.getObject("./Vision_sensor")
         print("SIM objects referenced")

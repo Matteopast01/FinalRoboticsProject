@@ -27,7 +27,7 @@ class AmIInNextNode(Behaviour):
         current_pos = Knowledge().get_current_node()
         next_node = Knowledge().get_next_node()
         graph = Knowledge().get_graph()
-        if next_node is None or graph.is_nodes_position_equals(current_pos, next_node):
+        if next_node is None or graph.is_nodes_position_equals(current_pos, next_node, True):
             self._controller.perform_action("stop")
             return Status.SUCCESS
         else:

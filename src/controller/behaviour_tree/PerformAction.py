@@ -9,24 +9,24 @@ from py_trees import logging as log_tree
 from isrlab_project.controller.Knowledge import Knowledge
 
 
-class Turn(Behaviour):
+class PerformAction(Behaviour):
     _controller: Any
 
     def __init__(self, name, controller):
-        super(Turn, self).__init__(name)
+        super(PerformAction, self).__init__(name)
         self._controller = controller
 
     def setup(self):
-        self._controller.print_log(f"Turn::setup {self.name}")
+        self._controller.print_log(f"PerformAction::setup {self.name}")
 
     def initialise(self):
-        self._controller.print_log(f"Turn::initialise {self.name}")
+        self._controller.print_log(f"PerformAction::initialise {self.name}")
 
     def update(self):
-        self._controller.print_log(f"Turn::update {self.name}")
+        self._controller.print_log(f"PerformAction::update {self.name}")
         action = Knowledge().get_action()
         self._controller.perform_action(action)
         return Status.SUCCESS
 
     def terminate(self, new_status):
-        self._controller.print_log(f"Turn::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"PerformAction::terminate {self.name} to {new_status}")

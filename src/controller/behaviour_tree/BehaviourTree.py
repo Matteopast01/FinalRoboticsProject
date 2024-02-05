@@ -17,10 +17,8 @@ from isrlab_project.controller.behaviour_tree.CheckEndGame import CheckEndGame
 from isrlab_project.controller.behaviour_tree.ResetPriorityQueue import ResetPriorityQueue
 from isrlab_project.controller.behaviour_tree.SetCurrentPosition import SetCurrentPosition
 from isrlab_project.controller.behaviour_tree.AmIInNextNode import AmIInNextNode
-from isrlab_project.controller.behaviour_tree.IsCenterNextNode import IsCenterNextNode
-from isrlab_project.controller.behaviour_tree.GoForward import GoForward
-from isrlab_project.controller.behaviour_tree.ComputeTurn import ComputeTurn
-from isrlab_project.controller.behaviour_tree.Turn import Turn
+from isrlab_project.controller.behaviour_tree.ComputeAction import ComputeAction
+from isrlab_project.controller.behaviour_tree.PerformAction import PerformAction
 from isrlab_project.controller.behaviour_tree.IsThereAComputedPath import IsThereAComputedPath
 from isrlab_project.controller.behaviour_tree.SetNextNode import SetNextNode
 from isrlab_project.controller.behaviour_tree.AddBusyNodes import AddBusyNodes
@@ -52,10 +50,8 @@ class BehaviourTree:
         computeNodeAndPath = ComputeNodeAndPath(name="ComputeNodeAndPath", controller=controller_handle)
         error3B = Error(name="error3B", controller=controller_handle)
         amIInNextNode = AmIInNextNode(name="AmIinNextNode", controller=controller_handle)
-        isCenterNextNode = IsCenterNextNode(name="isCenterNextNode", controller=controller_handle)
-        goForward = GoForward(name="goForward", controller=controller_handle)
-        computeTurn = ComputeTurn(name="computeTurn", controller=controller_handle)
-        turn = Turn(name="turn", controller=controller_handle)
+        computeAction = ComputeAction(name="computeAction", controller=controller_handle)
+        performAction = PerformAction(name="performAction", controller=controller_handle)
         isThereAComputedPath = IsThereAComputedPath(name="isThereAComputedPath", controller=controller_handle)
         setNextNode = SetNextNode(name="setNextNode", controller=controller_handle)
         addBusyNodes = AddBusyNodes(name="addBusyNodes", controller=controller_handle)
@@ -69,11 +65,9 @@ class BehaviourTree:
         selector2L5B = Selector(name="selector2L5B", memory=True)
         sequence1L2B = Sequence(name="sequence1L2B", memory=True)
         selector1L3B = Selector(name="selector1L3B", memory=True)
-        selector2L7B = Selector(name="selector2L7B", memory=True)
         sequence2L6B = Sequence(name="sequence2L6B", memory=True)
         selector3L4B = Selector(name="selector3L4B", memory=True)
-        sequence3L5B = Sequence(name="sequence3L5B", memory=True)
-        sequence3L6B = Sequence(name="sequence3L6B", memory=True)
+        sequence2L7B = Sequence(name="sequence2L7B", memory=True)
         sequence4L3B = Sequence(name="sequence4L3B", memory=True)
 
         root = Selector(name="root", memory=True)
@@ -85,13 +79,11 @@ class BehaviourTree:
         sequence3L1B.add_children([findQrCode, selector4L2B])
         selector2L5B.add_children([sequence3L1B, error2B])
         sequence1L2B.add_children([setCurrentPosition, addBusyNodes, addNewNodes, checkPositionalGoal, selector2L5B])
-        selector2L7B.add_children([sequence3L5B, sequence3L6B])
         sequence2L6B.add_children([amIInNextNode, selector3L4B])
-        sequence3L5B.add_children([isCenterNextNode, goForward])
-        sequence3L6B.add_children([computeTurn, turn])
+        sequence2L7B.add_children([computeAction, performAction])
         sequence4L3B.add_children([isThereAComputedPath, setNextNode])
         selector3L4B.add_children([sequence4L3B, computeNodeAndPath, error3B])
-        selector1L3B.add_children([sequence2L6B, selector2L7B])
+        selector1L3B.add_children([sequence2L6B, sequence2L7B])
         root.add_children([checkEndGame, sequence1L2B, selector1L3B])
 
         self._root = root

@@ -9,28 +9,29 @@ from py_trees import logging as log_tree
 from isrlab_project.controller.Knowledge import Knowledge
 
 
-class ComputeTurn(Behaviour):
+class ComputeAction(Behaviour):
     _controller: Any
 
     def __init__(self, name, controller):
-        super(ComputeTurn, self).__init__(name)
+        super(ComputeAction, self).__init__(name)
         self._controller = controller
 
     def setup(self):
-        self._controller.print_log(f"ComputeTurn::setup {self.name}")
+        self._controller.print_log(f"ComputeAction::setup {self.name}")
 
     def initialise(self):
-        self._controller.print_log(f"ComputeTurn::initialise {self.name}")
+        self._controller.print_log(f"ComputeAction::initialise {self.name}")
 
     def update(self):
-        self._controller.print_log(f"ComputeTurn::update {self.name}")
+        self._controller.print_log(f"ComputeAction::update {self.name}")
 
         current_node = Knowledge().get_current_node()
         next_node = Knowledge().get_next_node()
         next_orientation = self.convert_angle(np.arctan2(next_node[1] - current_node[1], next_node[0] - current_node[0]))
         current_orientation = self.convert_angle(Knowledge().get_orientation())
         angle_to_perform = next_orientation - current_orientation
-        self._controller.print_log(f"ComputeTurn:: angle current {current_orientation} next {next_orientation}")
+        self._controller.print_log(f"ComputeAction:: angle current {current_orientation} next {next_orientation}")
+        self._controller.print_log(f"ComputeAction:: current node {current_node} next node {next_node}")
         if angle_to_perform > 0.1:
             if np.abs(angle_to_perform) < np.pi:
                 Knowledge().set_action("turn_left")
@@ -42,7 +43,11 @@ class ComputeTurn(Behaviour):
             else:
                 Knowledge().set_action("turn_left")
         else:
-            Knowledge().set_action("go_forward")
+            if Knowledge().is_side_free("center"):
+                Knowledge().set_action("go_forward")
+            else:
+                Knowledge().set_next_node(None)
+                Knowledge().get_graph().remove_node(next_node)
 
         return Status.SUCCESS
 
@@ -52,4 +57,4 @@ class ComputeTurn(Behaviour):
         return angle
 
     def terminate(self, new_status):
-        self._controller.print_log(f"ComputeTurn::terminate {self.name} to {new_status}")
+        self._controller.print_log(f"ComputeAction::terminate {self.name} to {new_status}")
