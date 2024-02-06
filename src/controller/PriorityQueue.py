@@ -22,6 +22,9 @@ class PriorityQueue:
         assert self._get_elem_idxs(elem_id=elem_id) is None, "`elem` must not exist"
         self._elem_idxs[elem_id] = idx
 
+    def exist(self, elem):
+        return self._get_elem_idxs(elem_id=self.id_of(elem)) is None
+
     def _remove_elem_idx(self, elem=None, elem_id=None):
         if elem is not None:
             elem_id = self.id_of(elem)

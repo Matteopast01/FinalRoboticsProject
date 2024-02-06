@@ -72,8 +72,6 @@ class SimulatedPioneerBody:
                 values = {}
                 for sensor, handler in self._my_sensors_values.items():
                     _, dis, _, _, _ = self._sim.readProximitySensor(handler)
-                    if dis < 0.07:
-                        dis = 0
                     values[sensor] = dis
                 return values
             else:

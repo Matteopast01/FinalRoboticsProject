@@ -22,19 +22,26 @@ class MapGraph:
         self._visited.add(start_node)
         self._position_goal = position_goal
         self._queue = PriorityQueue()
-        self._queue.put((self._compute_ptp_distance(start_node), start_node))
         self._busy_nodes = []
 
+    def set_positional_goal(self, new_goal):
+        self._position_goal = new_goal
+
     def add_node(self, node_from: tuple, new_node: tuple):
-        self._graph[node_from].append(new_node)
-        self._graph[new_node] = [node_from]
-        self._queue.put((self._compute_priority(new_node, self._k_goal), new_node))
+        if self.is_just_visited(new_node):
+            new_node = self.get_approximate_node(new_node)
+            if node_from not in self._graph[node_from]:
+                self._graph[node_from].append(new_node)
+            if new_node not in self._graph[new_node]:
+                self._graph[new_node].append(node_from)
+        else:
+            self._graph[node_from].append(new_node)
+            self._graph[new_node] = [node_from]
+            self._queue.put((self._compute_priority(new_node, self._k_goal), new_node))
 
     def add_busy_node(self, busy_node):
         if self.is_node_new(busy_node, self._busy_nodes):
             self._busy_nodes.append(busy_node)
-            for priority, item in self._queue:
-                self._queue.update_priority(self._compute_priority(item, self._k_goal), item)
 
     def _compute_priority(self, node, k_goal=0.5):
         goal_ptp_dis = self._compute_ptp_distance(node)
@@ -81,9 +88,8 @@ class MapGraph:
 
     def reset_priority_queue(self):
         self._queue = PriorityQueue()
-        for key in self._graph.keys():
-            for node in self._graph[key]:
-                self._queue.put((self._compute_priority(node, self._k_goal), node))
+        for node in self._graph.keys():
+            self._queue.put((self._compute_priority(node, self._k_goal), node))
 
     def remove_node(self, node):
         for n in self._graph[node]:

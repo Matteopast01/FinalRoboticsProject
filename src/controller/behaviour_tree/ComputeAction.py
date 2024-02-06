@@ -47,7 +47,6 @@ class ComputeAction(Behaviour):
                 Knowledge().set_action("go_forward")
             else:
                 Knowledge().set_next_node(None)
-                Knowledge().get_graph().remove_node(next_node)
 
         return Status.SUCCESS
 

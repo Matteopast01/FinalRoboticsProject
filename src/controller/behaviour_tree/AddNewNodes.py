@@ -34,9 +34,8 @@ class AddNewNodes(Behaviour):
                 new_node_y = current_node[1] + delta[1]
                 new_node = (new_node_x, new_node_y)
 
-                if not Knowledge().get_graph().is_just_visited(new_node):
-                    Knowledge().get_graph().add_node(current_node, new_node)
-                else:
+                Knowledge().get_graph().add_node(current_node, new_node)
+                if Knowledge().get_graph().is_just_visited(new_node):
                     new_node = Knowledge().get_graph().get_approximate_node(new_node)
                 Knowledge().add_neighbors(side, new_node)
 

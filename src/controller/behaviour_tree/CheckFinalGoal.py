@@ -24,9 +24,9 @@ class CheckFinalGoal(Behaviour):
 
     def update(self):
         self._controller.print_log(f"CheckFinalGoal::initialise {self.name}")
-        text_to_decode = Knowledge().get_arrived_data("text")
+        text_to_decode = Knowledge().get_arrived_data()["text"]
         decoded_text = Knowledge().decode_text_qr(text_to_decode)
-        if decoded_text == Knowledge().read_config_var():
+        if decoded_text == Knowledge().read_config_var("STRING_TARGET_ARRIVE"):
             return Status.SUCCESS
         else:
             Knowledge().set_text_goal(decoded_text)

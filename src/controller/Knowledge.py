@@ -107,6 +107,7 @@ class Knowledge:
 
     def set_goal(self, new_goal):
         self._goal = new_goal
+        self._map_graph.set_positional_goal(new_goal)
 
     def set_end_game(self, end_game):
         self._end_game = end_game

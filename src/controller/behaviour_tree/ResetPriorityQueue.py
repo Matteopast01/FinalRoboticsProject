@@ -24,8 +24,7 @@ class ResetPriorityQueue(Behaviour):
 
     def update(self):
         self._controller.print_log(f"ResetPriorityQueue::update {self.name}")
-        goal = Knowledge().get_goal()
-        Knowledge().get_graph().reset_priority_queue(goal)
+        Knowledge().get_graph().reset_priority_queue()
         return Status.SUCCESS
 
     def terminate(self, new_status):
