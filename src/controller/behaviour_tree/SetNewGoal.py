@@ -26,6 +26,7 @@ class SetNewGoal(Behaviour):
         self._controller.print_log(f"SetNewGoal::update {self.name}")
         new_goal = tuple(Knowledge().get_arrived_data()["pos"])
         Knowledge().set_goal((float(new_goal[0]), float(new_goal[1])))
+        self._controller.print_log(f"SetNewGoal::new_goal {(float(new_goal[0]), float(new_goal[1]))}")
         return Status.SUCCESS
 
     def terminate(self, new_status):

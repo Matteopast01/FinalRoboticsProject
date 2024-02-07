@@ -32,12 +32,12 @@ class ComputeAction(Behaviour):
         angle_to_perform = next_orientation - current_orientation
         self._controller.print_log(f"ComputeAction:: angle current {current_orientation} next {next_orientation}")
         self._controller.print_log(f"ComputeAction:: current node {current_node} next node {next_node}")
-        if angle_to_perform > 0.1:
+        if angle_to_perform > 0.15:
             if np.abs(angle_to_perform) < np.pi:
                 Knowledge().set_action("turn_left")
             else:
                 Knowledge().set_action("turn_right")
-        elif angle_to_perform <= -0.1:
+        elif angle_to_perform <= -0.15:
             if np.abs(angle_to_perform) < np.pi:
                 Knowledge().set_action("turn_right")
             else:

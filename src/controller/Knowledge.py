@@ -4,6 +4,7 @@ from isrlab_project.ReadConfig import ReadConfig
 import numpy as np
 from isrlab_project.controller.MapGraph import MapGraph
 from time import time
+import base64
 
 
 class Knowledge:
@@ -148,6 +149,21 @@ class Knowledge:
     def read_config_var(self, var_name):
         return self._configuration.read_data(var_name)
 
+    def _decrypt_text(self, key, crypted_text):
+        decodedText = base64.b64decode(crypted_text)
+
+        if len(decodedText) % len(key) != 0:
+            raise Exception("_decrypt_text: Strings must be of equal length")
+
+        numberRep = int(len(decodedText) / len(key))
+        key = key * numberRep
+        decrypt_text = ""
+        for i in range(0, len(decodedText)):
+            decrypt_text = decrypt_text + chr(decodedText[i] ^ ord(key[i]))
+        return decrypt_text
+
     def decode_text_qr(self, text):
+        if self._text_goal != "":
+            return self._decrypt_text(self._text_goal, text)
+
         return text
-        # TODO implement decode text passed has to be decoded
